@@ -17,6 +17,7 @@
 .center{
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .space-between{

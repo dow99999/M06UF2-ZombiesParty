@@ -1,3 +1,17 @@
+/*
+    fuentes
+*/
+
+@font-face{
+    font-family: 'simple-r';
+    src: url('./fonts/Simple-regular.ttf');
+}
+
+@font-face{
+    font-family: 'digital';
+    src: url('./fonts/digital-7.ttf');
+}
+
 .page{
     position: fixed;
     top:0;
@@ -5,11 +19,94 @@
     width: 100%;
     height: 100%; 
 }
+
+/*
+DIV 1
+*/
+
+label {
+    color:white;
+}
+
+#inputs{
+    background-color: #343a40;
+    width: 20%;
+    border-right: 1px solid white;
+    min-width: 200px;
+    font-family: 'simple-r';
+    letter-spacing: 1px;
+}
+
+#inputs > div > div > input{
+    height: 20px;
+    width: 50%;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: center;
+    margin-top: 5px;
+
+}
+
+#inputs > div > div > div{
+    width: 50px;
+    height: 50px;
+    border:1px solid white;
+    margin-bottom: 10px;
+}
+
+#inputs > div > div:nth-child(2) > span{
+    margin-bottom: 10px;
+}
+
+#inputs > div > div > div > span{
+    font-family:'digital';
+    font-size: 25px;
+    color: white;
+}
+
+.inputs{
+    padding: 0px;
+    margin-bottom: 20px;
+    width: 80%;
+}
+
+
+button{
+    border: 1px solid white;
+    color: white;
+    background-color: #343a40;
+    height: 40px;
+}
+
+input{
+    font-family: 'digital';
+}
+
+button:active{
+    box-shadow: none;
+    border: none;
+}
+
+button:focus{
+    outline:none;
+}
+  
 /*
 DIV 2
 */
 #gameDisplay{
     width: 80%;
+    background-color: #343a40f5;
+}
+
+#gameDisplay > div > div > div {
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    margin:5px;
+    color: white;
 }
 
 /*
@@ -17,17 +114,4 @@ DIV 3
 */
 #place3{
     display:none;
-}
-
-#inputs{
-    width: 20%;
-}
-
-.inputs{
-    margin-bottom: 20px;
-    width: 80%;
-}
-
-#sumbit{
-    border:none;
 }
