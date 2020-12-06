@@ -12,8 +12,7 @@
       <div id="inputs" class="flex-column center">
         <div class="flex-row center f-w">
           <div class="flex-column center">
-            <label for="inputX">LONGITUD</label>
-            <input name="inputX" id="inputX" class ="inputs" type="text">
+            <input name="inputX" id="inputX" class ="inputs" type="number" placeholder="LONGITUD">
           </div>
           <div>
             <span class="center">X,Y</span>
@@ -23,13 +22,16 @@
             </div>
           </div>
           <div class="flex-column center">
-            <label for="inputY">ALÇADA</label>
-            <input name="inputY" id="inputY" class = "inputs" type="text">
+            <input name="inputY" id="inputY" class = "inputs" type="number" placeholder="ALTURA">
           </div>
 
         </div>
         
-        <button id="submit" class = "inputs"><span>COMENÇAR</span></button>
+        <button id="submit" class = "inputs"><span>EMPEZAR</span></button>
+
+        <div>
+          <span id="errortxt"></span>
+        </div>
       </div>
   
       <div id="gameDisplay" class="flex-column center">

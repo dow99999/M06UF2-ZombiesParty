@@ -21,11 +21,29 @@ var index = 0;
  * @param {Object} tauler tablero 
  */
 function initTauler(taulerh, taulerw, tauler){
+  let total = (taulerh * taulerw);
+  tauler.elements.zombies = ((total * 25) / 100);
+  tauler.elements.estrellas = taulerh;
+  tauler.elements.doblePunts = Math.floor(((total * 25) / 100)/3);
+  tauler.elements.meitatZombies = Math.floor((((total * 25) / 100)/3)/2);
+  tauler.elements.vidaExtra = Math.floor((((total * 25) / 100)/3)/3);
+
   for(let y = 0; y < taulerh; y++){
     tauler.matriu[y] = new Array();
     for(let x = 0; x < taulerw; x++){
       tauler.matriu[y][x] = GESP_T;
     }
+  }
+
+  document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
+
+  let elements = document.getElementsByClassName("board");
+  for(let i = 0; i < elements.length; i++){
+    elements[i].addEventListener("click", function(event){
+      let x = event.target.id.split(",")[0];
+      let y = event.target.id.split(",")[1]
+      introduirPos(x,y);
+    });
   }
 }
 
@@ -34,6 +52,13 @@ function joc(){
     h: document.getElementById("inputY").value,
     w: document.getElementById("inputX").value,
     matriu: [],
+    elements:{
+      zombies: 0,
+      estrellas:0,
+      doblePunts:0,
+      meitatZombies:0,
+      vidaExtra:0
+    },
     print: function(){
       let aux = "";
       
@@ -52,7 +77,7 @@ function joc(){
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
-          aux += "<div id='" + x +"," + y +"'>" + this.matriu[y][x] + "</div>";
+          aux += "<div id='" + x +"," + y +"' class='board'>" + this.matriu[y][x] + "</div>";
         }
         aux += "</div>";
       }
@@ -65,17 +90,30 @@ function joc(){
   };
 
   initTauler(tauler.h, tauler.w, tauler);
-  document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
 }
 
 function main(){
-  document.getElementById("submit").innerHTML = "INTRODUIR";
+  document.getElementById("submit").innerHTML = "INTRODUCIR";
   index = 1;
   joc();
 }
 
-function introduirPos(){
-  alert("uwu");
+function introduirPos(x,y){
+  alert(x +" - " + y);
+}
+
+/*
+* Devuelve un bool si los datos son correctos o no
+*/
+function esCorrecte(x,y){
+  if( (x || y) == null) return false;
+  if(!x instanceof Number || !y instanceof Number) return false;
+  if((x < 5 || x > 20) || (y < 5 || y > 20) || x != y) return false;
+  return true;
+}
+
+function errorMissatge(missatge){
+  document.getElementById("errortxt").innerHTML = missatge;
 }
 
 window.onload = function(){
@@ -83,7 +121,10 @@ window.onload = function(){
   dictionary[0] =  main;
   dictionary[1] =  introduirPos;
   window.document.getElementById("submit").addEventListener('click', function(){
-    dictionary[index]();//esta feo bro, a la proxima suspendido
+    let x = document.getElementById("inputX").value;
+    let y = document.getElementById("inputY").value;
+    if(esCorrecte(x,y)) dictionary[index]();
+    else errorMissatge("Bro la lias");
   });
 }
 
