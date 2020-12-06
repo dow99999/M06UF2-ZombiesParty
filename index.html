@@ -3,8 +3,34 @@
   <head>
     <title>ZombieParty</title>
     <script src="./js/main.js"></script>
+    <link rel="stylesheet" href="./css/style-main.css">
+    <link rel="stylesheet" href="./css/style-shortcuts.css">
   </head>
   <body>
+    <div class="flex-row page">
 
+      <div id="inputs" class="flex-column center">
+        <div class="flex-column center f-w">
+          <label for="inputX">Longitud</label>
+          <input name="inputX" id="inputX" class ="inputs" type="text">
+        </div>
+        <div class="flex-column center f-w">
+          <label for="inputY">Alçada</label>
+          <input name="inputY" id="inputY" class = "inputs" type="text">
+        </div>
+        
+        <button id="submit" class = "inputs"><span>COMENÇAR</span></button>
+      </div>
+  
+      <div id="gameDisplay" class="flex-column center">
+          <span>loading</span>
+      </div>
+  
+  
+      <div id="place3">
+  
+      </div>
+
+    </div>
   </body>
 </html>
