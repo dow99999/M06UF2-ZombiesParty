@@ -58,6 +58,57 @@ function initTauler(taulerh, taulerw, tauler){
   console.log(tauler.elements);
 
   //TODO generar objetos dentro de la matriz segun los elementos de la tabla
+  //TODO meter lo de abajo en funciones
+
+  for(let i = 0; i < tauler.elements.vidaExtra; i++){
+    let aux_x;
+    let aux_y;
+    let vertical = (Math.random() * 2 < 1);
+    let cabe = false;
+
+    do {
+      aux_x = Math.floor(Math.random() * taulerw);
+      aux_y = Math.floor(Math.random() * taulerh);
+
+      if(vertical){
+        cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y + 1][aux_x] == GESP_T;
+      } else {
+        cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x + 1] == GESP_T;
+      }
+      
+    } while(!cabe);
+
+    tauler.objects.vidaExtra = new VidaExtra(); //TODO meter las posiciones
+
+  }
+
+  for(let i = 0; i < tauler.elements.meitatZombies; i++){
+
+    let aux_x;
+    let aux_y;
+    let vertical = (Math.random() * 2 < 1);
+    let cabe = false;
+
+    do {
+      aux_x = Math.floor(Math.random() * taulerw);
+      aux_y = Math.floor(Math.random() * taulerh);
+
+      if(vertical){
+        cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
+      } else {
+        cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
+      }
+      
+    } while(!cabe);
+
+    tauler.objects.meitatZombies = new MeitatZombis(); //TODO meter las posiciones
+
+  }
+
+  for(let i = 0; i < tauler.elements.vidaExtra; i++){
+
+  }
+
 
   document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
 
@@ -83,6 +134,13 @@ function joc(){
       doblePunts:0,
       meitatZombies:0,
       vidaExtra:0
+    },
+    objects:{
+      zombies: [],
+      estrellas: [],
+      doblePunts: [],
+      meitatZombies: [],
+      vidaExtra: []
     },
     print: function(){
       let aux = "";
