@@ -22,11 +22,31 @@ var index = 0;
  */
 function initTauler(taulerh, taulerw, tauler){
   let total = (taulerh * taulerw);
-  tauler.elements.zombies = ((total * 25) / 100);
-  tauler.elements.estrellas = taulerh;
-  tauler.elements.doblePunts = Math.floor(((total * 25) / 100)/3);
-  tauler.elements.meitatZombies = Math.floor((((total * 25) / 100)/3)/2);
-  tauler.elements.vidaExtra = Math.floor((((total * 25) / 100)/3)/3);
+  tauler.elements.zombies = total / 4;
+  tauler.elements.estrellas = Number.parseInt(taulerh);
+  
+  tauler.elements.recompensas = total / 4;
+  //minimo 1 de cada tipo
+  tauler.elements.doblePunts = 1;
+  tauler.elements.meitatZombies = 1;
+  tauler.elements.vidaExtra = 1;
+
+  let countRecompensas = tauler.elements.doblePunts + tauler.elements.meitatZombies*2 + tauler.elements.vidaExtra*3;
+  
+  while(countRecompensas < tauler.elements.recompensas){
+    switch(Math.floor(Math.random() * 3)){
+      case 0:
+        tauler.elements.doblePunts++;
+        break;
+      case 1:
+        tauler.elements.meitatZombies++;
+        break;
+      case 2:
+        tauler.elements.vidaExtra++;
+        break;
+    }
+    countRecompensas = tauler.elements.doblePunts + tauler.elements.meitatZombies*2 + tauler.elements.vidaExtra*3;
+  }
 
   for(let y = 0; y < taulerh; y++){
     tauler.matriu[y] = new Array();
@@ -34,6 +54,10 @@ function initTauler(taulerh, taulerw, tauler){
       tauler.matriu[y][x] = GESP_T;
     }
   }
+
+  console.log(tauler.elements);
+
+  //TODO generar objetos dentro de la matriz segun los elementos de la tabla
 
   document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
 
@@ -55,6 +79,7 @@ function joc(){
     elements:{
       zombies: 0,
       estrellas:0,
+      recompensas:0,
       doblePunts:0,
       meitatZombies:0,
       vidaExtra:0
