@@ -201,7 +201,7 @@ function updateTaulerMatrix(tauler){
       for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
         
         //console.log(tauler.objects[obj][entity].getId());
-        tauler.matriu[tauler.objects[obj][entity].getPosX()[i]][tauler.objects[obj][entity].getPosY()[i]] =
+        tauler.matriu[tauler.objects[obj][entity].getPosY()[i]][tauler.objects[obj][entity].getPosX()[i]] =
             (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
       }
     }
