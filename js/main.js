@@ -14,8 +14,29 @@ const VIDA_D = 'V';
 
 var index = 0;
 
+function isInside(x, y, max_x, max_y){
+  return ((x < max_x && x >= 0) && (y < max_y && y >= 0));
+}
+
 /**
- * Procedimiento que inicializa la matriz del tablero con espacios 'vacios'
+ * Procedimiento que muestra escribe los objetos del tablero dentro de su matriz
+ * @param {Tauler} tauler 
+ */
+function updateTaulerMatrix(tauler){
+  for(let obj in tauler.objects){
+    console.log("o: " + obj);
+    for(let entity in tauler.objects[obj]){
+      console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
+      for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
+        tauler.matriu[tauler.objects[obj][entity].getPosX()[i]][tauler.objects[obj][entity].getPosY()[i]] =
+            (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
+      }
+    }
+  }
+}
+
+/**
+ * Procedimiento que inicializa el tablero
  * @param {int} taulerh alto del tablero
  * @param {int} taulerw ancho del tablero
  * @param {Object} tauler tablero 
@@ -55,7 +76,7 @@ function initTauler(taulerh, taulerw, tauler){
     }
   }
 
-  console.log(tauler.elements);
+  //console.log(tauler.elements);
 
   //TODO generar objetos dentro de la matriz segun los elementos de la tabla
   //TODO meter lo de abajo en funciones
@@ -71,15 +92,25 @@ function initTauler(taulerh, taulerw, tauler){
       aux_y = Math.floor(Math.random() * taulerh);
 
       if(vertical){
-        cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y + 1][aux_x] == GESP_T;
+        if(isInside(aux_x, aux_y - 1, taulerw, taulerh) && isInside(aux_x, aux_y + 1, taulerw, taulerh))
+          cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y + 1][aux_x] == GESP_T;
       } else {
-        cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x + 1] == GESP_T;
+        if(isInside(aux_x - 1, aux_y, taulerw, taulerh) && isInside(aux_x + 1, aux_y, taulerw, taulerh))
+          cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x + 1] == GESP_T;
       }
       
     } while(!cabe);
 
-    tauler.objects.vidaExtra = new VidaExtra(); //TODO meter las posiciones
-
+      tauler.objects.vidaExtra.push(
+        new VidaExtra(
+          vertical ? [aux_x, aux_x, aux_x] : [aux_x - 1, aux_x, aux_x + 1],
+          vertical ? [aux_y - 1, aux_y, aux_y + 1] : [aux_y, aux_y, aux_y],
+          null,
+          [false, false, false],
+          VIDA_T
+        )
+      );
+      updateTaulerMatrix(tauler);
   }
 
   for(let i = 0; i < tauler.elements.meitatZombies; i++){
@@ -94,22 +125,35 @@ function initTauler(taulerh, taulerw, tauler){
       aux_y = Math.floor(Math.random() * taulerh);
 
       if(vertical){
-        cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
+        if(isInside(aux_x, aux_y - 1, taulerw, taulerh))
+          cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
       } else {
-        cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
+        if(isInside(aux_x - 1, aux_y, taulerw, taulerh))
+          cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
       }
       
     } while(!cabe);
 
-    tauler.objects.meitatZombies = new MeitatZombis(); //TODO meter las posiciones
-
+    tauler.objects.meitatZombies.push( 
+      new MeitatZombis(
+        vertical ? [aux_x, aux_x] : [aux_x - 1, aux_x],
+        vertical ? [aux_y - 1, aux_y] : [aux_y, aux_y],
+        null,
+        [false, false],
+        MITAD_T
+      )
+    );
+    updateTaulerMatrix(tauler);
   }
 
-  for(let i = 0; i < tauler.elements.vidaExtra; i++){
+//  for(let i = 0; i < tauler.elements.vidaExtra; i++){
+//
+//  }
 
-  }
+  console.log(tauler.objects);
 
 
+  //TODO: meter esto en una funcion aparte para hacer el update de pantalla
   document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
 
   let elements = document.getElementsByClassName("board");

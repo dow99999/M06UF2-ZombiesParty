@@ -1,5 +1,5 @@
-var Zombi = function(){
-  
+var Zombi = function(x, y, img, muestra, id){
+  Elemento.apply(this, arguments);
 };
 
 Zombi.prototype = Object.create(Elemento.prototype);
