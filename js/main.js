@@ -19,23 +19,6 @@ function isInside(x, y, max_x, max_y){
 }
 
 /**
- * Procedimiento que muestra escribe los objetos del tablero dentro de su matriz
- * @param {Tauler} tauler 
- */
-function updateTaulerMatrix(tauler){
-  for(let obj in tauler.objects){
-    console.log("o: " + obj);
-    for(let entity in tauler.objects[obj]){
-      console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
-      for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
-        tauler.matriu[tauler.objects[obj][entity].getPosX()[i]][tauler.objects[obj][entity].getPosY()[i]] =
-            (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
-      }
-    }
-  }
-}
-
-/**
  * Procedimiento que inicializa el tablero
  * @param {int} taulerh alto del tablero
  * @param {int} taulerw ancho del tablero
@@ -54,6 +37,8 @@ function initTauler(taulerh, taulerw, tauler){
 
   let countRecompensas = tauler.elements.doblePunts + tauler.elements.meitatZombies*2 + tauler.elements.vidaExtra*3;
   
+  //aumentar contadores recompensas en funcion del total de las recompensas
+
   while(countRecompensas < tauler.elements.recompensas){
     switch(Math.floor(Math.random() * 3)){
       case 0:
@@ -69,6 +54,8 @@ function initTauler(taulerh, taulerw, tauler){
     countRecompensas = tauler.elements.doblePunts + tauler.elements.meitatZombies*2 + tauler.elements.vidaExtra*3;
   }
 
+  //llenar matriz de hierba
+
   for(let y = 0; y < taulerh; y++){
     tauler.matriu[y] = new Array();
     for(let x = 0; x < taulerw; x++){
@@ -78,7 +65,7 @@ function initTauler(taulerh, taulerw, tauler){
 
   //console.log(tauler.elements);
 
-  //TODO generar objetos dentro de la matriz segun los elementos de la tabla
+  //TODO generar objetos dentro de la matriz segun los elementos de la tabla vida extra
   //TODO meter lo de abajo en funciones
 
   for(let i = 0; i < tauler.elements.vidaExtra; i++){
@@ -112,6 +99,8 @@ function initTauler(taulerh, taulerw, tauler){
       );
       updateTaulerMatrix(tauler);
   }
+
+//TODO generar objetos dentro de la matriz segun los elementos de la tabla meitatZombies
 
   for(let i = 0; i < tauler.elements.meitatZombies; i++){
 
@@ -150,10 +139,77 @@ function initTauler(taulerh, taulerw, tauler){
 //
 //  }
 
+  generarTipo("zombies",tauler);
+  generarTipo("estrellas", tauler);
+  generarTipo("doblePunts", tauler);
+
   console.log(tauler.objects);
+  initEventListener(tauler);
+
+  }
+
+function generarTipo(tipo, tauler){
+  for(let i = 0; i < tauler.elements[tipo]; i++){
+
+    let aux_x;
+    let aux_y;
+    let cabe = false;
+
+    do {
+      aux_x = Math.floor(Math.random() * tauler.w);
+      aux_y = Math.floor(Math.random() * tauler.h);
+      
+      cabe = tauler.matriu[aux_y][aux_x] == GESP_T;
+      
+    } while(!cabe);
+    
+    //x, y, img, muestra, id
+    let novaEntitat;
+    switch(tipo){
+      case "zombies":
+        novaEntitat = new Zombi([aux_x], [aux_y], null, [false], ZOMBIE_T);  
+      break;
+      case "estrellas":
+        novaEntitat = new Estrella([aux_x], [aux_y], null, [false], ESTRELLA_T);
+      break;
+      case "doblePunts":
+        novaEntitat = new DoblePunts([aux_x], [aux_y], null, [false], DOBLAR_T);
+      break;
+    }
+
+    console.log(novaEntitat.getPosX() + " - " + novaEntitat.getPosY());
+    tauler.objects[tipo].push( 
+      novaEntitat
+    );
+
+    updateTaulerMatrix(tauler);
+  }
+  //console.log(tauler.objects);
+}
 
 
-  //TODO: meter esto en una funcion aparte para hacer el update de pantalla
+/**
+ * Procedimiento que muestra escribe los objetos del tablero dentro de su matriz
+ * @param {Tauler} tauler 
+ */
+function updateTaulerMatrix(tauler){
+  for(let obj in tauler.objects){
+    console.log("o: " + obj);
+    for(let entity in tauler.objects[obj]){
+      
+      //console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
+      for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
+        
+        //console.log(tauler.objects[obj][entity].getId());
+        tauler.matriu[tauler.objects[obj][entity].getPosX()[i]][tauler.objects[obj][entity].getPosY()[i]] =
+            (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
+      }
+    }
+  }
+}
+
+//Inicializar los listeners de cada caja en el tauler  
+function initEventListener(tauler){
   document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
 
   let elements = document.getElementsByClassName("board");
@@ -184,7 +240,7 @@ function joc(){
       estrellas: [],
       doblePunts: [],
       meitatZombies: [],
-      vidaExtra: []
+      vidaExtra: [],
     },
     print: function(){
       let aux = "";
