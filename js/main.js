@@ -12,6 +12,8 @@ const DOBLAR_D = 'D';
 const MITAD_D = 'M';
 const VIDA_D = 'V';
 
+const NUMBERS = "0123456789";
+
 var index = 0;
 
 function isInside(x, y, max_x, max_y){
@@ -148,6 +150,8 @@ function initTauler(taulerh, taulerw, tauler){
 
   }
 
+
+// generar entidades de una casilla 
 function generarTipo(tipo, tauler){
   for(let i = 0; i < tauler.elements[tipo]; i++){
 
@@ -309,6 +313,18 @@ window.onload = function(){
     if(esCorrecte(x,y)) dictionary[index]();
     else errorMissatge("Bro la lias");
   });
+  window.document.getElementById("inputX").addEventListener('input', function(event){
+    verificarNumero(event);
+  });
+  window.document.getElementById("inputY").addEventListener('input', function(event){
+    verificarNumero(event);
+  });
+}
+
+function verificarNumero(event){
+  if(!Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1]))){
+    event.target.value = event.target.value.slice(0,-1);
+  };
 }
 
 
