@@ -228,8 +228,8 @@ function initEventListener(tauler){
 
 function joc(){
   let tauler = {
-    h: document.getElementById("inputY").value,
-    w: document.getElementById("inputX").value,
+    h: document.getElementById("inputSize").value,
+    w: document.getElementById("inputSize").value,
     matriu: [],
     elements:{
       zombies: 0,
@@ -280,6 +280,8 @@ function joc(){
 }
 
 function main(){
+  document.getElementById("confSize").style.display = "none";
+  document.getElementById("gameControls").style.display = "flex";
   document.getElementById("submit").innerHTML = "INTRODUCIR";
   index = 1;
   joc();
@@ -290,17 +292,13 @@ function introduirPos(x,y){
 }
 
 /*
-* Devuelve un bool si los datos son correctos o no
+* Devuelve un bool si los datos son correctos o no, acepta cualquier numero de argumentos
 */
-function esCorrecte(x,y){
-  if( (x || y) == null) return false;
-  if(!x instanceof Number || !y instanceof Number) return false;
-  if((x < 5 || x > 20) || (y < 5 || y > 20) || x != y) return false;
+function esCorrecte(){
+  for(let i = 0; i < arguments.length; i++){
+    if(arguments[i] == null || !arguments[i] instanceof Number || (arguments[i] < 5 || arguments[i] > 20)) return false;
+  }
   return true;
-}
-
-function errorMissatge(missatge){
-  document.getElementById("errortxt").innerHTML = missatge;
 }
 
 window.onload = function(){
@@ -308,23 +306,27 @@ window.onload = function(){
   dictionary[0] =  main;
   dictionary[1] =  introduirPos;
   window.document.getElementById("submit").addEventListener('click', function(){
-    let x = document.getElementById("inputX").value;
-    let y = document.getElementById("inputY").value;
-    if(esCorrecte(x,y)) dictionary[index]();
-    else errorMissatge("Bro la lias");
+    let size = document.getElementById("inputSize").value;
+    if(esCorrecte(size)) dictionary[index]();
+    else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
-    verificarNumero(event);
+    verificarNumero(event) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
-    verificarNumero(event);
+    verificarNumero(event) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
 }
 
+/* afegueix un texte a una ID donada per parametre */
+function afeguirText(id, value){
+  document.getElementById(id).innerHTML =  value; 
+}
+
+/* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
 function verificarNumero(event){
-  if(!Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1]))){
-    event.target.value = event.target.value.slice(0,-1);
-  };
+  if(!Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1])) || Number.parseInt(event.target.value) > 20) event.target.value = event.target.value.slice(0,-1);
+  return Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1]));
 }
 
 
