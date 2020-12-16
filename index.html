@@ -16,7 +16,7 @@
   <body>
     <div class="flex-row page">
 
-      <div id="inputs" class="flex-column center">
+      <div id="inputs" class="flex-column center space-evenly">
         <div id="confSize" class="flex-column center f-w">
             <label for="start">TAMAÑO</label>
             <input name="start" id="inputSize" class="inputs">
@@ -39,7 +39,40 @@
 
         </div>
         
-        <button id="submit" class = "inputs"><span>EMPEZAR</span></button>
+        <div id="botones">
+          <button id="submit" class = "inputs"><span>EMPEZAR</span></button>
+          <button id="abandonar" class = "inputs"><span>ABANDONAR</span></button>
+        </div>
+
+        <div id="estadisticas" class="flex-column">
+            <div id="puntuacioActual" class="flex-column">
+              <span>vida</span>
+              <span>puntuacio</span>
+            </div>
+            <div id="estadisticas" class="flex-column">
+              <h4>ESTADÍSTIQUES</h4>
+              <div class="flex-row center">
+                  <div class="flex-column">
+                      <span>GUANYADES</span> 
+                      <span id="text-eg" class="font-neon win-color">0</span> 
+                      <span>TOTAL</span>
+                      <span id="text-egg" class="font-neon win-color">0</span>
+                  </div>
+                  <div class="flex-column">
+                      <span>ABANDONADES</span> 
+                      <span id="text-ea" class="font-neon neutral-color">0</span> 
+                      <span>TOTAL</span> 
+                      <span id="text-eag" class="font-neon neutral-color">0</span>
+                  </div>
+                  <div class="flex-column">
+                      <span>PERDUDES</span> 
+                      <span id="text-ep" class="font-neon lose-color">0</span> 
+                      <span>TOTAL</span> 
+                      <span id="text-epg" class="font-neon lose-color">0</span>
+                  </div> 
+              </div>
+            </div>
+        </div>
 
         <div>
           <span id="errortxt"></span>
@@ -47,13 +80,9 @@
       </div>
   
       <div id="gameDisplay" class="flex-column center">
-          <span>loading</span>
+          <span></span>
       </div>
-  
-  
-      <div id="place3">
-  
-      </div>
+      
 
     </div>
   </body>

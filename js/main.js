@@ -15,6 +15,7 @@ const VIDA_D = 'V';
 const NUMBERS = "0123456789";
 
 var index = 0;
+var posicioSeleccionada = "";
 
 function isInside(x, y, max_x, max_y){
   return ((x < max_x && x >= 0) && (y < max_y && y >= 0));
@@ -60,8 +61,10 @@ function initTauler(taulerh, taulerw, tauler){
 
   for(let y = 0; y < taulerh; y++){
     tauler.matriu[y] = new Array();
+    tauler.mapa[y] = new Array(); 
     for(let x = 0; x < taulerw; x++){
       tauler.matriu[y][x] = GESP_T;
+      tauler.mapa[y][x] = GESP_T;
     }
   }
 
@@ -145,7 +148,6 @@ function initTauler(taulerh, taulerw, tauler){
   generarTipo("estrellas", tauler);
   generarTipo("doblePunts", tauler);
 
-  console.log(tauler.objects);
   initEventListener(tauler);
 
   }
@@ -205,7 +207,10 @@ function updateTaulerMatrix(tauler){
       for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
         
         //console.log(tauler.objects[obj][entity].getId());
-        tauler.matriu[tauler.objects[obj][entity].getPosY()[i]][tauler.objects[obj][entity].getPosX()[i]] =
+        let posY = tauler.objects[obj][entity].getPosY()[i];
+        let posX = tauler.objects[obj][entity].getPosX()[i];
+        tauler.mapa[posY][posX] = tauler.objects[obj][entity]; 
+        tauler.matriu[posY][posX] =
             (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
       }
     }
@@ -221,7 +226,7 @@ function initEventListener(tauler){
     elements[i].addEventListener("click", function(event){
       let x = event.target.id.split(",")[0];
       let y = event.target.id.split(",")[1]
-      introduirPos(x,y);
+      cercarObj(x,y);
     });
   }
 }
@@ -230,6 +235,9 @@ function joc(){
   let tauler = {
     h: document.getElementById("inputSize").value,
     w: document.getElementById("inputSize").value,
+    vida: 3,
+    estrelles: 0,
+    puntuacio: 0,
     matriu: [],
     elements:{
       zombies: 0,
@@ -246,6 +254,7 @@ function joc(){
       meitatZombies: [],
       vidaExtra: [],
     },
+    mapa:[],
     print: function(){
       let aux = "";
       
@@ -264,7 +273,7 @@ function joc(){
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
-          aux += "<div id='" + x +"," + y +"' class='board'>" + this.matriu[y][x] + "</div>";
+          aux += "<div id='" + x +"," + y +"' class='board'></div>";
         }
         aux += "</div>";
       }
@@ -277,9 +286,42 @@ function joc(){
   };
 
   initTauler(tauler.h, tauler.w, tauler);
+  let final = false;
+  let jocIniciat = setInterval(function(){
+    
+    if(posicioSeleccionada == "abandonar") final = true;
+
+    if(posicioSeleccionada != "" && !final){
+      console.log(posicioSeleccionada);
+      let posX = posicioSeleccionada.split(",")[0];
+      let posY = posicioSeleccionada.split(",")[1];
+      console.log(tauler.mapa[posY][posX]);
+      posicioSeleccionada = "";
+    } 
+
+    if(final) {
+      posicioSeleccionada = "";
+      reiniciarPartida();
+      clearInterval(jocIniciat);
+    };
+  }, 50);
+  
+}
+
+function reiniciarPartida(){
+  document.getElementById("submit").innerHTML = "EMPEZAR";
+  document.getElementById("abandonar").style.display = "none";
+  document.getElementById("gameDisplay").innerHTML = "";
+  document.getElementById("confSize").style.display = "flex";
+  document.getElementById("gameControls").style.display = "none";
+  document.getElementById("inputSize").value = "";
+  afeguirText("errortxt", "Partida reiniciada.");
+  index = 0;
 }
 
 function main(){
+  afeguirText("errortxt", "");
+  document.getElementById("abandonar").style.display = "inline";
   document.getElementById("confSize").style.display = "none";
   document.getElementById("gameControls").style.display = "flex";
   document.getElementById("submit").innerHTML = "INTRODUCIR";
@@ -287,8 +329,12 @@ function main(){
   joc();
 }
 
-function introduirPos(x,y){
-  alert(x +" - " + y);
+/* 
+* Busca el objecto en la matriz al que le has hecho click y ejecuta su funcion.
+*
+*/
+function cercarObj(posX,posY){
+  posicioSeleccionada = posX + "," + posY;
 }
 
 /*
@@ -304,14 +350,17 @@ function esCorrecte(){
 window.onload = function(){
   var dictionary = [];
   dictionary[0] =  main;
-  dictionary[1] =  introduirPos;
+  dictionary[1] =  cercarObj;
+  window.document.getElementById("abandonar").addEventListener('click', function(){
+    posicioSeleccionada = "abandonar";
+  })
   window.document.getElementById("submit").addEventListener('click', function(){
     let size = document.getElementById("inputSize").value;
     if(esCorrecte(size)) dictionary[index]();
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
-    verificarNumero(event) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
+    verificarNumero(event) ? afeguirText("coordX", event.target.value) : afeguirText("coordY", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
