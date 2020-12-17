@@ -23,11 +23,6 @@
 /*
 DIV 1
 */
-
-#confSize{
-    border:1px solid white;
-}
-
 #confSize > input::placeholder{
     text-align: center;
     font-size: 20px;
@@ -35,21 +30,36 @@ DIV 1
 
 #confSize > label{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 4px;
     margin-bottom: 20px;
 }
 
 #confSize > input{
-    height: 20px;
-    width: 40%;
+    height: 50px;
+    width: 50px;
     min-width: 10px;
     text-align: center;
-    font-size: 20px;
+    font-size: 35px;
     font-weight: bold;
+}
+
+#confSize > input:active{
+    border: none;
 }
 
 #gameControls{
     display: none;
+    width: 90%;
+    height: 100px;
+    border-radius: 15px;
+}
+
+#botones{
+    width: 90% !important;
+    height: 150px;
+    border-radius: 15px;
 }
 
 #abandonar{
@@ -61,68 +71,62 @@ label {
 }
 
 #inputs{
-    background-color: #343a40;
     width: 20%;
-    border-right: 1px solid white;
     min-width: 400px;
     font-family: 'simple-r';
     letter-spacing: 1px;
-}
-
-#inputs > div:nth-child(1) {
-    width: 50%;
-    margin-bottom: 10px;
-    padding: 10px;
+    background-image: url('../resources/wall.png');
+    background-size: 100%;
+    border: 1px solid #404040;
 }
 
 #inputs > div > div > input{
-    height: 20px;
-    width: 50%;
+    height: 29px;
+    width:60%;
 
     font-size: 20px;
     font-weight: bold;
 
     text-align: center;
-    margin-top: 5px;
-
+    color: #404040;
 }
 
-#inputs > div > div > div{
+#inputs > div:nth-child(2) > div > div{
     width: 60px;
     height: 60px;
-    border:1px solid white;
-    margin-bottom: 15px;
+    background-color: white;
 }
 
-#inputs > div > div:nth-child(2) > span{
-    margin-bottom: 10px;
+#inputs > div:nth-child(2) > div > div{
+    width: 60px;
+    height: 60px;
+    background-color: white;
 }
 
-#inputs > div > div > div > span{
-    font-family:'digital';
+#inputs > div:nth-child(2) > div > div {
     font-size: 25px;
-    color: white;
+    font-weight: bold;
+    color: #404040;
+    letter-spacing: 3px;
 }
 
 .inputs{
     padding: 0px;
-    margin-bottom: 20px;
     width: 80%;
+    border: 1px solid white;
+    color: #404040;
+    font-weight: bold;
+    font-size: 19px;
+    background-color: white;
+    height: 40px;
 }
 
 #botones{
     width: 100%;
 }
 
-button{
-    border: 1px solid white;
-    color: white;
-    background-color: #343a40;
-    height: 40px;
-}
-
-input{
-    font-family: 'digital';
+#submit {
+    margin-bottom: 20px;
 }
 
 button:active{
@@ -136,27 +140,32 @@ button:focus{
   
 #errortxt{
     color: white;
-    font-size: 12px;
+    font-size: 20px;
+    font-weight: bold;
     font-family: 'Arial';
+}
+
+.estadisticas > * {
+    color: #404040;
+}
+
+.estadisticas {
+    border-top: 1px solid #404040 !important;
 }
 
 #estadisticas{
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     color: white;
-    
+}
+
+#estadisticas > div {
+    background-color: white;
 }
 
 #estadisticas > div:nth-child(2){
     width: 90%;
     height: 200px;
     border: 1px solid white;
-}
-
-#estadisticas > div > div {
-    margin-right: 10px;
 }
 
 #estadisticas > div > div > span {
@@ -166,6 +175,15 @@ button:focus{
 
 #estadisticas > div > div:nth-child(3){
     margin-right: 0px;
+}
+
+#cookies{
+    padding: 5px;
+    height: 100%;
+}
+
+#cookies > div > span{
+    margin-bottom: 10px;
 }
 
 #puntuacioActual{
@@ -179,7 +197,7 @@ button:focus{
     width: 50%;
     margin-top: 10px;
     margin-bottom: 10px;
-    color: #fdfcae;
+    color: #404040;
     font-weight: bold;
 }
 
@@ -190,12 +208,8 @@ button:focus{
 #vida > img {
     width: 30px;
     height: 30px;
-    filter: invert(100);
+    filter: invert(20%) sepia(2%) saturate(7%) hue-rotate(325deg) brightness(93%) contrast(80%);
     margin-top: 5px;
-}
-
-#puntuacio{
-    
 }
 
 /*
@@ -206,7 +220,14 @@ DIV 2
     background-color: #191f26;
     background-image: url('../resources/backgrounds/waiting.gif');
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: auto 100%;
+}
+
+#gameDisplay > span{
+    color: white;
+    font-size: 30px;
+    font-family: 'simple-r';
+    letter-spacing: 3px;
 }
 
 #gameDisplay > div > div > div {
@@ -218,6 +239,7 @@ DIV 2
 .board{
     background-color: white;
     cursor: pointer;
+    z-index: 2;
 }
 
 .board > img{
@@ -249,10 +271,13 @@ DIV 2
     height: 70px;
 }
 
-
-
 /* sobreescritura */
 
 .destapat{
     background-color: transparent;
+    z-index: 1;
+}
+
+img {
+    z-index: 1;
 }

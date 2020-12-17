@@ -18,13 +18,13 @@
 
       <div id="inputs" class="flex-column center space-evenly">
         <div id="confSize" class="flex-column center f-w">
-            <label for="start">TAMAÑO</label>
+            <label for="start">TAMAÑO DE LA MATRIZ</label>
             <input name="start" id="inputSize" class="inputs">
         </div>
         
         <div id="gameControls" class="flex-row center f-w">
           <div class="flex-column center">
-            <input name="inputX" id="inputX" class ="inputs" placeholder="LONGITUD">
+            <input name="inputX" id="inputX" placeholder="LONGITUD">
           </div>
           <div>
             <div class="flex-row center">
@@ -34,24 +34,24 @@
             </div>
           </div>
           <div class="flex-column center">
-            <input name="inputY" id="inputY" class = "inputs" placeholder="ALTURA">
+            <input name="inputY" id="inputY" placeholder="ALTURA">
           </div>
 
         </div>
         
-        <div id="botones">
+        <div id="botones" class="flex-column center">
           <button id="submit" class = "inputs"><span>EMPEZAR</span></button>
           <button id="abandonar" class = "inputs"><span>ABANDONAR</span></button>
         </div>
 
-        <div id="estadisticas" class="flex-column">
+        <div id="estadisticas" class="flex-column center">
             <div id="puntuacioActual" class="flex-column center">
               <span class="flex-row center space-evenly" id="vida">vida</span>
               <span class="flex-column center" id="puntuacio">puntuacio</span>
             </div>
-            <div id="estadisticas" class="flex-column">
-              <h4>ESTADÍSTIQUES</h4>
-              <div class="flex-row center space-around">
+            <div class="estadisticas flex-column">
+              <h4 class="center">ESTADÍSTIQUES</h4>
+              <div id="cookies" class="flex-row center space-around">
                   <div class="flex-column">
                       <span>GUANYADES</span> 
                       <span id="text-eg" class="font-neon win-color">0</span> 
@@ -80,7 +80,7 @@
       </div>
   
       <div id="gameDisplay" class="flex-column center">
-          <span><!--<img alt="loading" src="resources/loading-icegif.gif">--></span>
+          <span>ESPERANDO AL USUARIO...</span>
       </div>
       
 
