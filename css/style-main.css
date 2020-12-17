@@ -64,7 +64,7 @@ label {
     background-color: #343a40;
     width: 20%;
     border-right: 1px solid white;
-    min-width: 200px;
+    min-width: 400px;
     font-family: 'simple-r';
     letter-spacing: 1px;
 }
@@ -159,6 +159,11 @@ button:focus{
     margin-right: 10px;
 }
 
+#estadisticas > div > div > span {
+    margin-bottom: 10px;
+}
+
+
 #estadisticas > div > div:nth-child(3){
     margin-right: 0px;
 }
@@ -170,17 +175,38 @@ button:focus{
     border-top: 1px solid white;;
 }
 
+#puntuacio{
+    width: 50%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #fdfcae;
+    font-weight: bold;
+}
+
+#vida{
+    width: 50%;
+}
+
+#vida > img {
+    width: 30px;
+    height: 30px;
+    filter: invert(100);
+    margin-top: 5px;
+}
+
+#puntuacio{
+    
+}
+
 /*
 DIV 2
 */
 #gameDisplay{
     width: 80%;
-    background-color: #343a40f5;
+    background-color: #191f26;
 }
 
 #gameDisplay > div > div > div {
-    width: 30px;
-    height: 30px;
     border: 1px solid white;
     margin:5px;
     color: white;
@@ -188,4 +214,42 @@ DIV 2
 
 .board{
     background-color: white;
+    cursor: pointer;
+}
+
+.board > img{
+    margin-bottom: 65px;
+}
+
+.grass{
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0px !important;
+}
+
+.grass-destapat{
+    filter: grayscale(100%) brightness(120%) sepia(90%) hue-rotate(5deg) saturate(500%) contrast(0.7);
+}
+
+.min{
+    width: 35px;
+    height: 35px;
+}
+
+.normal{
+    width: 50px;
+    height: 50px;
+}
+
+.max{
+    width: 70px;
+    height: 70px;
+}
+
+
+
+/* sobreescritura */
+
+.destapat{
+    background-color: transparent;
 }

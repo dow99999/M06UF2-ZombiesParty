@@ -12,7 +12,7 @@ const DOBLAR_D = 'D';
 const MITAD_D = 'M';
 const VIDA_D = 'V';
 
-const NUMBERS = "0123456789";
+const VIDA_MAX = 3;
 
 var index = 0;
 var posicioSeleccionada = "";
@@ -183,7 +183,7 @@ function generarTipo(tipo, tauler){
       break;
     }
 
-    console.log(novaEntitat.getPosX() + " - " + novaEntitat.getPosY());
+    //console.log(novaEntitat.getPosX() + " - " + novaEntitat.getPosY());
     tauler.objects[tipo].push( 
       novaEntitat
     );
@@ -200,7 +200,7 @@ function generarTipo(tipo, tauler){
  */
 function updateTaulerMatrix(tauler){
   for(let obj in tauler.objects){
-    console.log("o: " + obj);
+    //console.log("o: " + obj);
     for(let entity in tauler.objects[obj]){
       
       //console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
@@ -223,9 +223,10 @@ function initEventListener(tauler){
 
   let elements = document.getElementsByClassName("board");
   for(let i = 0; i < elements.length; i++){
+    console.log(elements[i]);
     elements[i].addEventListener("click", function(event){
-      let x = event.target.id.split(",")[0];
-      let y = event.target.id.split(",")[1]
+      let x = event.currentTarget.id.split(",")[0];
+      let y = event.currentTarget.id.split(",")[1]
       cercarObj(x,y);
     });
   }
@@ -235,7 +236,7 @@ function joc(){
   let tauler = {
     h: document.getElementById("inputSize").value,
     w: document.getElementById("inputSize").value,
-    vida: 3,
+    vida: VIDA_MAX,
     estrelles: 0,
     puntuacio: 0,
     matriu: [],
@@ -268,12 +269,17 @@ function joc(){
       return aux;
     },
     printHTML:function(){
-      let aux = "<div class='flex-column center'>";
+      let clase ="";
+      if(this.h < 16 && this.h > 7) clase = "normal";
+      if(this.h >= 16) clase = "min";
+      if(this.h <= 7) clase = "max";
+      let aux = "<div class='flex-column center" + clase + "'>";
       
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
-          aux += "<div id='" + x +"," + y +"' class='board'></div>";
+          //console.log(this.mapa[y][x]);
+          aux += "<div id='" + x +"," + y +"' class='flex-column center board " + clase + "'>" + ((this.mapa[y][x] != "g" && this.mapa[y][x] != "G") ? this.mapa[y][x].getFrame() : (this.mapa[y][x] == "g") ? "<img class='grass' src='./resources/grass.png' alt='grass'>" : "<img class='grass' src='./resources/grass.png' alt='grass'>")  + "</div>";
         }
         aux += "</div>";
       }
@@ -286,16 +292,32 @@ function joc(){
   };
 
   initTauler(tauler.h, tauler.w, tauler);
+  actualitzarVides(tauler.vida);
+  document.getElementById("puntuacio").innerHTML = tauler.puntuacio;
+
   let final = false;
   let jocIniciat = setInterval(function(){
-    
+
     if(posicioSeleccionada == "abandonar") final = true;
 
     if(posicioSeleccionada != "" && !final){
-      console.log(posicioSeleccionada);
+      //console.log(posicioSeleccionada);
       let posX = posicioSeleccionada.split(",")[0];
       let posY = posicioSeleccionada.split(",")[1];
-      console.log(tauler.mapa[posY][posX]);
+      //console.log(tauler.mapa[posY][posX].getDestapat());
+      /*TODO hay que poner mas funciones y eso de momento estoy probando a ver que tal se verian las animaciones, el reset de las vidas esta off asi que nunca mueres,
+       * para volver a activarlo solo quita el comentario de abajo */
+      if(tauler.mapa[posY][posX] instanceof Zombi) {
+        tauler.mapa[posY][posX].setDestapat([true]);
+        console.log(tauler.mapa[posY][posX].getDestapat());
+        tauler.mapa[posY][posX].interactuar(tauler);
+        document.getElementById(posX + "," + posY).classList.add("destapat");
+        actualitzarElement(posX,posY, tauler);
+      } else {
+        document.getElementById(posX + "," + posY).classList.add("grass-destapat");
+      }
+      actualitzarVides(tauler.vida);
+      //if(tauler.vida == 0) final = true;
       posicioSeleccionada = "";
     } 
 
@@ -308,6 +330,7 @@ function joc(){
   
 }
 
+/* reiniciar partida */
 function reiniciarPartida(){
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
@@ -316,7 +339,48 @@ function reiniciarPartida(){
   document.getElementById("gameControls").style.display = "none";
   document.getElementById("inputSize").value = "";
   afeguirText("errortxt", "Partida reiniciada.");
+  actualitzarVides(3);
+  actualitzarPuntuacio(0);
   index = 0;
+}
+
+/* pruebas */
+function actualitzarElement(x,y,tauler){
+  document.getElementById(x + "," + y).innerHTML = "";
+
+  setTimeout(function(){
+    console.log("primera");
+    document.getElementById(x + "," + y).innerHTML = tauler.mapa[y][x].getFrame()[0];
+  },100);
+
+  setTimeout(function(){
+    console.log("segunda");
+    document.getElementById(x + "," + y).innerHTML = tauler.mapa[y][x].getFrame()[1];
+  },1100);
+
+  setTimeout(function(){
+    console.log("Tercera");
+    document.getElementById(x +"," + y).innerHTML = tauler.mapa[y][x].getFrame()[2];
+  },3100);
+}
+
+/* Actualiza la puntuacion*/
+function actualitzarPuntuacio(punt){
+  document.getElementById("puntuacio").innerHTML = punt;
+}
+
+/* Actualitza las vidas que se muestran en funcion de la vida maxima y la actual */
+function actualitzarVides(current){
+  let vidas = "";
+  for(let i = 0; i < (VIDA_MAX - current); i++){
+    vidas += "<img alt='corazon' src='./resources/heart-black-2.png'>";
+  }
+  
+  for(let i = 0; i < current; i++){
+    vidas += "<img alt='corazon' src='./resources/heart.png'>";
+  }
+
+  document.getElementById("vida").innerHTML = vidas;
 }
 
 function main(){
@@ -334,6 +398,7 @@ function main(){
 *
 */
 function cercarObj(posX,posY){
+  console.log(posY + "-" + posX);
   posicioSeleccionada = posX + "," + posY;
 }
 
@@ -348,9 +413,10 @@ function esCorrecte(){
 }
 
 window.onload = function(){
-  var dictionary = [];
+  let dictionary = [];
   dictionary[0] =  main;
   dictionary[1] =  cercarObj;
+  actualitzarVides(3);
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
   })
@@ -360,10 +426,10 @@ window.onload = function(){
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
-    verificarNumero(event) ? afeguirText("coordX", event.target.value) : afeguirText("coordY", "0");
+    verificarNumero(event) ? afeguirText("coordX", event.currenTarget.value) : afeguirText("coordY", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
-    verificarNumero(event) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
+    verificarNumero(event) ? afeguirText("coordY", event.currenTarget.value) : afeguirText("coordY", "0");
   });
 }
 
@@ -374,8 +440,8 @@ function afeguirText(id, value){
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
 function verificarNumero(event){
-  if(!Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1])) || Number.parseInt(event.target.value) > 20) event.target.value = event.target.value.slice(0,-1);
-  return Number.isInteger(Number.parseInt(event.target.value[event.target.value.length - 1]));
+  if(!Number.isInteger(Number.parseInt(event.currentTarget.value[event.currenTarget.value.length - 1])) || Number.parseInt(event.currenTarget.value) > 20) event.currenTarget.value = event.currenTarget.value.slice(0,-1);
+  return Number.isInteger(Number.parseInt(event.currentTarget.value[event.currenTarget.value.length - 1]));
 }
 
 
