@@ -105,7 +105,7 @@ function initTauler(taulerh, taulerw, tauler){
           VIDA_T
         )
       );
-      updateTaulerMatrix(tauler);
+      tauler.updateTaulerMatrix();
   }
 
 //TODO generar objetos dentro de la matriz segun los elementos de la tabla meitatZombies
@@ -140,7 +140,7 @@ function initTauler(taulerh, taulerw, tauler){
         MITAD_T
       )
     );
-    updateTaulerMatrix(tauler);
+    tauler.updateTaulerMatrix();
   }
 
 //  for(let i = 0; i < tauler.elements.vidaExtra; i++){
@@ -191,33 +191,9 @@ function generarTipo(tipo, tauler){
       novaEntitat
     );
 
-    updateTaulerMatrix(tauler);
+    tauler.updateTaulerMatrix();
   }
   //console.log(tauler.objects);
-}
-
-
-/**
- * Procedimiento que muestra escribe los objetos del tablero dentro de su matriz
- * @param {Tauler} tauler 
- */
-function updateTaulerMatrix(tauler){
-  for(let obj in tauler.objects){
-    //console.log("o: " + obj);
-    for(let entity in tauler.objects[obj]){
-      
-      //console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
-      for(let i = 0; i < tauler.objects[obj][entity].getPosX().length; i++){
-        
-        //console.log(tauler.objects[obj][entity].getId());
-        let posY = tauler.objects[obj][entity].getPosY()[i];
-        let posX = tauler.objects[obj][entity].getPosX()[i];
-        tauler.mapa[posY][posX] = tauler.objects[obj][entity]; 
-        tauler.matriu[posY][posX] =
-            (tauler.objects[obj][entity].getDestapat()[i]) ? tauler.objects[obj][entity].getId().toUpperCase() : tauler.objects[obj][entity].getId();
-      }
-    }
-  }
 }
 
 //Inicializar los listeners de cada caja en el tauler  
@@ -264,7 +240,7 @@ function joc(){
       
       for(let y = 0; y < this.h; y++){
         for(let x = 0; x < this.w; x++){
-          aux += this.matriu[y][x];
+          aux += this.matriu[y][x] + " ";
         }
         aux += "\n";
       }
@@ -290,6 +266,45 @@ function joc(){
       aux += "</div>";
 
       return aux;      
+    },
+    halfZombies: function(){
+      let aux_index = [];
+
+      for(let i = 0; i < this.elements.zombies; i++){
+        if(!this.objects.zombies[i].areAllVisible())
+          aux_index.push(i);
+      }
+
+      let deleted = 0;
+      for(let i = Math.floor(aux_index.length/2); i < aux_index.length; i++){
+        let auxx = (this.objects.zombies[aux_index[i]-deleted].getPosX())[0];
+        let auxy = (this.objects.zombies[aux_index[i]-deleted].getPosY())[0];
+        this.matriu[auxy][auxx] = GESP_T;
+        this.mapa[auxy][auxx] = GESP_T;
+        this.objects.zombies.splice(aux_index[i]-deleted, 1);
+        this.elements.zombies--;
+        deleted++;
+      }
+
+      this.updateTaulerMatrix();
+    },
+    updateTaulerMatrix: function(){
+      for(let obj in this.objects){
+        //console.log("o: " + obj);
+        for(let entity in this.objects[obj]){
+          
+          //console.log("e: " + tauler.objects[obj][entity].getPosX()[0]);
+          for(let i = 0; i < this.objects[obj][entity].getPosX().length; i++){
+            
+            //console.log(tauler.objects[obj][entity].getId());
+            let posY = this.objects[obj][entity].getPosY()[i];
+            let posX = this.objects[obj][entity].getPosX()[i];
+            this.mapa[posY][posX] = this.objects[obj][entity]; 
+            this.matriu[posY][posX] =
+                (this.objects[obj][entity].getDestapat()[i]) ? this.objects[obj][entity].getId().toUpperCase() : this.objects[obj][entity].getId();
+          }
+        }
+      }
     }
 
   };
@@ -297,7 +312,7 @@ function joc(){
   initTauler(tauler.h, tauler.w, tauler);
   actualitzarVides(tauler.vida);
 
-  console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles);
+  console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
 
   document.getElementById("puntuacio").innerHTML = tauler.puntuacio;
 
@@ -326,7 +341,7 @@ function joc(){
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
-        //tauler.mapa[posY][posX].interactuar(tauler); //WIP
+        tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         //actualitzarElement(posX,posY, tauler);
       } else
@@ -341,12 +356,16 @@ function joc(){
         //actualitzarElement(posX,posY, tauler);
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
+        tauler.matriu[posY][posX] = GESP_D;
         tauler.puntuacio += 50;
         //tauler.mapa[posY][posX].setDestapat([true]);
       }
       actualitzarVides(tauler.vida);
+      actualitzarPuntuacio(tauler.puntuacio);
       //if(tauler.vida == 0) final = true;
       posicioSeleccionada = "";
+      tauler.updateTaulerMatrix();
+      console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
     }
 
     if(final) {
