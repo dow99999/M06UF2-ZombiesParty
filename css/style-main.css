@@ -204,6 +204,9 @@ DIV 2
 #gameDisplay{
     width: 80%;
     background-color: #191f26;
+    background-image: url('../resources/backgrounds/waiting.gif');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 #gameDisplay > div > div > div {
