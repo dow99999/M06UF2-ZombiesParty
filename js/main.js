@@ -14,7 +14,7 @@ const VIDA_D = 'V';
 
 const VIDA_MAX = 3;
 
-var index = 0;
+var index = 1;
 var posicioSeleccionada = "";
 
 function isInside(x, y, max_x, max_y){
@@ -341,7 +341,7 @@ function reiniciarPartida(){
   afeguirText("errortxt", "Partida reiniciada.");
   actualitzarVides(3);
   actualitzarPuntuacio(0);
-  index = 0;
+  index = 1;
 }
 
 /* pruebas */
@@ -389,7 +389,7 @@ function main(){
   document.getElementById("confSize").style.display = "none";
   document.getElementById("gameControls").style.display = "flex";
   document.getElementById("submit").innerHTML = "INTRODUCIR";
-  index = 1;
+  index = 0;
   joc();
 }
 
@@ -402,34 +402,26 @@ function cercarObj(posX,posY){
   posicioSeleccionada = posX + "," + posY;
 }
 
-/*
-* Devuelve un bool si los datos son correctos o no, acepta cualquier numero de argumentos
-*/
-function esCorrecte(){
-  for(let i = 0; i < arguments.length; i++){
-    if(arguments[i] == null || !arguments[i] instanceof Number || (arguments[i] < 5 || arguments[i] > 20)) return false;
-  }
-  return true;
-}
-
 window.onload = function(){
   let dictionary = [];
-  dictionary[0] =  main;
-  dictionary[1] =  cercarObj;
+  dictionary[1] =  main;
+  dictionary[0] =  cercarObj;
   actualitzarVides(3);
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
   })
   window.document.getElementById("submit").addEventListener('click', function(){
     let size = document.getElementById("inputSize").value;
-    if(esCorrecte(size)) dictionary[index]();
+    let x = document.getElementById("inputX").value;
+    let y = document.getElementById("inputY").value;
+    if(verificarNumero(size, (5 * index))) dictionary[index](x, y);
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
-    verificarNumero(event) ? afeguirText("coordX", event.currenTarget.value) : afeguirText("coordY", "0");
+    verificarNumero(event.target.value, 0) ? afeguirText("coordX", event.target.value) : afeguirText("coordY", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
-    verificarNumero(event) ? afeguirText("coordY", event.currenTarget.value) : afeguirText("coordY", "0");
+    verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
 }
 
@@ -439,9 +431,8 @@ function afeguirText(id, value){
 }
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
-function verificarNumero(event){
-  if(!Number.isInteger(Number.parseInt(event.currentTarget.value[event.currenTarget.value.length - 1])) || Number.parseInt(event.currenTarget.value) > 20) event.currenTarget.value = event.currenTarget.value.slice(0,-1);
-  return Number.isInteger(Number.parseInt(event.currentTarget.value[event.currenTarget.value.length - 1]));
+function verificarNumero(value, min){
+  if(!Number.isInteger(Number.parseInt(value[value.length - 1])) || Number.parseInt(value) > 20 || Number.parseInt(value) < min) value = value.slice(0,-1);
+  return Number.isInteger(Number.parseInt(value[value.length - 1]));
 }
-
 
