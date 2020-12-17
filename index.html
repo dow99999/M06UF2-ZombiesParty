@@ -19,51 +19,58 @@
 
       <div id="inputs" class="flex-column center space-evenly">
         <div id="confSize" class="flex-column center f-w">
-            <div class="flex-column center">
-              <label for="start">TAMAÑO DE LA MATRIZ</label>
+            <div id="panel" class="flex-column center">
+              <div class="flex-column center">
+                <label class="test" for="start">TAMAÑO DE LA MATRIZ</label>  
+              </div>
+            </div>
+            <div id="entrada" class="flex-column center">
+              <input class="test" name="start" id="inputSize">
             </div>
 
-            <input name="start" id="inputSize" class="inputs">
         </div>
         
-        <div id="gameControls" class="flex-row center f-w">
+        <div id="gameControls" class="flex-row center space-evenly f-w">
           <div class="flex-column center">
-            <input name="inputX" id="inputX" placeholder="LONGITUD">
+            <input name="inputX" id="inputX" class="inputs">
           </div>
-          <div>
-            <div class="flex-row center">
-              <span id="coordX">0</span>
-              <span>,</span>
-              <span id="coordY">0</span>
-            </div>
+          <div class="flex-row center">
+            <span id="coordX">0</span>
+            <span>,</span>
+            <span id="coordY">0</span>
           </div>
           <div class="flex-column center">
-            <input name="inputY" id="inputY" placeholder="ALTURA">
+            <input name="inputY" id="inputY" class="inputs">
           </div>
 
         </div>
         
         <div id="botones" class="flex-column center">
-          <button id="submit" class = "inputs"><span>EMPEZAR</span></button>
-          <button id="abandonar" class = "inputs"><span>ABANDONAR</span></button>
+          <button id="submit" class = "buttons"><span>EMPEZAR</span></button>
+          <button id="abandonar" class = "buttons"><span>ABANDONAR</span></button>
         </div>
 
         <div id="estadisticas" class="flex-column center">
             <div id="puntuacioActual" class="flex-column center">
-              <span class="flex-row center space-evenly" id="vida">vida</span>
-              <span class="flex-column center" id="puntuacio">puntuacio</span>
+              <div class="flex-column">
+                <span class="flex-row center space-evenly f-w" id="vida">vida</span>
+                <span class="flex-column center f-w" id="puntuacio">0</span>
+              </div>
+
             </div>
             <div class="estadisticas flex-column">
+              <span class="test">Aqui va texto</span>
             </div>
         </div>
 
-        <div>
-          <span id="errortxt"></span>
+        <div id="errorentrada">
+          <span class="test" id="errortxt"></span>
         </div>
       </div>
   
-      <div id="gameDisplay" class="flex-column center">
+      <div id="gameDisplay" class="flex-column">
           <span id="waiting-user">ESPERANDO AL USUARIO...</span>
+          <img src="./resources/waiting.gif" alt="waiting">
       </div>
       
 

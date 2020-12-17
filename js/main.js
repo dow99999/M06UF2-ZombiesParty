@@ -252,7 +252,7 @@ function joc(){
       if(this.h < 16 && this.h > 7) clase = "normal";
       if(this.h >= 16) clase = "min";
       if(this.h <= 7) clase = "max";
-      let aux = "<div class='flex-column center" + clase + "'>";
+      let aux = "<div class='flex-column center " + clase + "'>";
       
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
@@ -380,9 +380,11 @@ function joc(){
 
 /* reiniciar partida */
 function reiniciarPartida(){
+  document.getElementById("gameDisplay").classList.remove("center");
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
-  document.getElementById("gameDisplay").innerHTML = "";
+  document.getElementById("gameDisplay").innerHTML = "<span id='waiting-user'>ESPERANDO AL USUARIO...</span><img src='./resources/waiting.gif' alt='waiting'>";
+  waitingFunction = setInterval(esperantAlUsuari, 1000);
   document.getElementById("confSize").style.display = "flex";
   document.getElementById("gameControls").style.display = "none";
   document.getElementById("inputSize").value = "";
@@ -433,6 +435,7 @@ function actualitzarVides(current){
 
 function main(){
   afeguirText("errortxt", "");
+  document.getElementById("gameDisplay").classList.add("center");
   document.getElementById("abandonar").style.display = "inline";
   document.getElementById("confSize").style.display = "none";
   document.getElementById("gameControls").style.display = "flex";
@@ -455,10 +458,9 @@ window.onload = function(){
   dictionary[1] =  main;
   dictionary[0] =  cercarObj;
   actualitzarVides(3);
-  //waitingFunction = setInterval(esperantAlUsuari, 1000);
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
-  })
+  });
   window.document.getElementById("submit").addEventListener('click', function(){
     let size = document.getElementById("inputSize").value;
     let x = document.getElementById("inputX").value;
@@ -467,11 +469,12 @@ window.onload = function(){
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
-    verificarNumero(event.target.value, 0) ? afeguirText("coordX", event.target.value) : afeguirText("coordY", "0");
+    verificarNumero(event.target.value, 0) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
+  document.getElementById()
   waitingFunction = setInterval(esperantAlUsuari, 1000);
 }
 
