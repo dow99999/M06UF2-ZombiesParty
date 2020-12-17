@@ -314,39 +314,31 @@ function joc(){
        * para volver a activarlo solo quita el comentario de abajo */
       if(tauler.mapa[posY][posX] instanceof Zombi) {
         tauler.mapa[posY][posX].interactuar(tauler);
-        console.log(tauler.mapa[posY][posX].getDestapat());
         document.getElementById(posX + "," + posY).classList.add("destapat");
         actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
-        tauler.mapa[posY][posX].interactuar(tauler);
-        tauler.mapa[posY][posX].setDestapat([true]);
-        console.log(tauler.mapa[posY][posX].getDestapat());
+        //tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        actualitzarElement(posX,posY, tauler);
+        //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
-        tauler.mapa[posY][posX].interactuar(tauler);
-        tauler.mapa[posY][posX].setDestapat([true]);
-        console.log(tauler.mapa[posY][posX].getDestapat());
+        //tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        actualitzarElement(posX,posY, tauler);
+        //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
-        tauler.mapa[posY][posX].interactuar(tauler);
-        tauler.mapa[posY][posX].setDestapat([true]);
-        console.log(tauler.mapa[posY][posX].getDestapat());
+        //tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        actualitzarElement(posX,posY, tauler);
+        //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
-        tauler.mapa[posY][posX].interactuar(tauler);
-        tauler.mapa[posY][posX].setDestapat([true]);
-        console.log(tauler.mapa[posY][posX].getDestapat());
+        //tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        actualitzarElement(posX,posY, tauler);
+        //actualitzarElement(posX,posY, tauler);
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
+        tauler.mapa[posY][posX].setDestapat([true]);
       }
       actualitzarVides(tauler.vida);
       //if(tauler.vida == 0) final = true;
@@ -462,7 +454,8 @@ window.onload = function(){
 
 /* afegueix un texte a una ID donada per parametre */
 function afeguirText(id, value){
-  document.getElementById(id).innerHTML =  value; 
+  if(document.getElementById(id)!=null)
+    document.getElementById(id).innerHTML =  value; 
 }
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
