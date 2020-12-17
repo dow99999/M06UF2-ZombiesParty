@@ -12,6 +12,16 @@
     src: url('./fonts/digital-7.ttf');
 }
 
+@font-face{
+    font-family: 'pixel';
+    src: url('./fonts/pixel-font.ttf');
+}
+
+span, h1, h2, h3, h4, input, button, label{
+    font-family: 'pixel';
+    letter-spacing: 2px;
+}
+
 .page{
     position: fixed;
     top:0;
@@ -29,7 +39,6 @@ DIV 1
 }
 
 #confSize > label{
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 25px;
     font-weight: bold;
     letter-spacing: 4px;
@@ -73,7 +82,6 @@ label {
 #inputs{
     width: 20%;
     min-width: 400px;
-    font-family: 'simple-r';
     letter-spacing: 1px;
     background-image: url('../resources/wall.png');
     background-size: 100%;
@@ -142,7 +150,6 @@ button:focus{
     color: white;
     font-size: 20px;
     font-weight: bold;
-    font-family: 'Arial';
 }
 
 .estadisticas > * {
@@ -225,8 +232,7 @@ DIV 2
 
 #gameDisplay > span{
     color: white;
-    font-size: 30px;
-    font-family: 'simple-r';
+    font-size: 40px;
     letter-spacing: 3px;
 }
 
@@ -281,3 +287,4 @@ DIV 2
 img {
     z-index: 1;
 }
+
