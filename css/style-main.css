@@ -30,6 +30,13 @@ span, h1, h2, h3, h4, input, button, label{
     height: 100%; 
 }
 
+body > div:nth-child(1){
+    background-image: url('../resources/backgrounds/cemetery-d.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: fixed;
+}
+
 /*
 DIV 1
 */
@@ -38,11 +45,18 @@ DIV 1
     font-size: 20px;
 }
 
-#confSize > label{
+#confSize > div {
+    background-image: url('../resources/brick.jpg');
+    background-size: 180px 180px;
+    border: 1px solid #404040;
+    height: 47px;
+    width: 90%;
+}
+
+#confSize > div > label{
     font-size: 25px;
     font-weight: bold;
     letter-spacing: 4px;
-    margin-bottom: 20px;
 }
 
 #confSize > input{
@@ -52,6 +66,7 @@ DIV 1
     text-align: center;
     font-size: 35px;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 #confSize > input:active{
@@ -157,22 +172,21 @@ button:focus{
 }
 
 .estadisticas {
-    border-top: 1px solid #404040 !important;
+    background-color: #343531;
+}
+
+.estadisticas > * {
+    /*color: #6b562b;*/
 }
 
 #estadisticas{
     width: 100%;
     color: white;
 }
-
-#estadisticas > div {
-    background-color: white;
-}
-
 #estadisticas > div:nth-child(2){
     width: 90%;
     height: 200px;
-    border: 1px solid white;
+    border: 1px solid #404040;
 }
 
 #estadisticas > div > div > span {
@@ -195,17 +209,18 @@ button:focus{
 
 #puntuacioActual{
     width: 90%;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    border-top: 1px solid white;;
+    background-image: url('../resources/brick.jpg');
+    background-size: 180px 180px;
+    border: 1px solid #404040;
 }
 
 #puntuacio{
     width: 50%;
     margin-top: 10px;
     margin-bottom: 10px;
-    color: #404040;
+    color:#6b562b;
     font-weight: bold;
+    font-size: 15px;
 }
 
 #vida{
@@ -215,7 +230,8 @@ button:focus{
 #vida > img {
     width: 30px;
     height: 30px;
-    filter: invert(20%) sepia(2%) saturate(7%) hue-rotate(325deg) brightness(93%) contrast(80%);
+    /*filter: invert(32%) sepia(52%) saturate(413%) hue-rotate(2deg) brightness(94%) contrast(95%);*/
+    filter: invert(100);
     margin-top: 5px;
 }
 
@@ -224,10 +240,6 @@ DIV 2
 */
 #gameDisplay{
     width: 80%;
-    background-color: #191f26;
-    background-image: url('../resources/backgrounds/waiting.gif');
-    background-repeat: no-repeat;
-    background-size: auto 100%;
 }
 
 #gameDisplay > span{
