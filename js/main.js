@@ -296,6 +296,9 @@ function joc(){
 
   initTauler(tauler.h, tauler.w, tauler);
   actualitzarVides(tauler.vida);
+
+  console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles);
+
   document.getElementById("puntuacio").innerHTML = tauler.puntuacio;
 
   let final = false;
@@ -303,7 +306,7 @@ function joc(){
 
     if(posicioSeleccionada == "abandonar") final = true;
     
-    console.log("ps: " + posicioSeleccionada);
+    //console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles);
 
     if(posicioSeleccionada != "" && !final){
       //console.log(posicioSeleccionada);
@@ -318,27 +321,28 @@ function joc(){
         actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
-        //tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
-        //tauler.mapa[posY][posX].interactuar(tauler);
+        //tauler.mapa[posY][posX].interactuar(tauler); //WIP
         document.getElementById(posX + "," + posY).classList.add("destapat");
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
-        //tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].interactua(posX, posY, tauler); //por algun motivo si se llama interactuar no va pero si se llama interactua si
         document.getElementById(posX + "," + posY).classList.add("destapat");
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
-        //tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         //actualitzarElement(posX,posY, tauler);
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
-        tauler.mapa[posY][posX].setDestapat([true]);
+        tauler.puntuacio += 50;
+        //tauler.mapa[posY][posX].setDestapat([true]);
       }
       actualitzarVides(tauler.vida);
       //if(tauler.vida == 0) final = true;

@@ -14,10 +14,16 @@ Zombi.prototype.constructor = Zombi;
 
 /* Pasa por parametro el tablero para restarle vidas */
 Zombi.prototype.interactuar = function(tauler){
-  if(!this.getDestapat()[0]) //solo te baja vida si es la primera vez que clicas
+  if(!this.areAllVisible()){ //solo te baja vida si es la primera vez que clicas
     tauler.vida--;
 
-  this.setDestapat([true]);
+    if(tauler.puntuacio >= 100)
+      tauler.puntuacio -= 100;
+    else
+      tauler.puntuacio = 0;
+
+    this.setDestapat([true]);
+  }
 };
 
 

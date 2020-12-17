@@ -9,7 +9,13 @@ var Elemento = function (x, y, img, muestra, id) {
 
   this.getPosY = function () { return posy; }
 
-  this.setDestapat = function (f_destapat) { destapat = f_destapat; } //TODO busqueda de la parte que se puede destapar
+  this.setDestapat = function (f_destapat, index) { 
+    if(arguments.length == 1){
+      destapat = f_destapat;
+    } else {
+      destapat[index] = f_destapat;
+    }
+   }
   this.getDestapat = function () { return destapat; }
 
   this.getId = function () { return identificador; }
@@ -30,4 +36,38 @@ var Elemento = function (x, y, img, muestra, id) {
 Elemento.prototype.getImg = function(){
   if(this.getDestapat()) return this.ar_img;
   else return "";
+};
+
+/**
+ * Funcion para recuperar el indice del recuadro en la posicion 
+ * @param {Integer} posx posicion x
+ * @param {Integer} posy posicion y
+ * @returns el indice si se encuentra o null si no existe 
+ */
+Elemento.prototype.getPosIndex = function(posx, posy){
+  let found = false;
+  let i = 0;
+
+  do{
+    found = this.getPosX()[i] == posx && this.getPosY()[i] == posy;
+    i++;
+  } while(!found && i < this.getPosX().length);
+
+  return found ? (i-1) : null;
+}
+
+/**
+ * Funcion que devuelve si todos los elementos del objeto son visibles
+ * @returns True si todos son visibles, False si no lo son
+ */
+Elemento.prototype.areAllVisible = function(){
+  let i = 1;
+  let yes = this.getDestapat()[0];
+
+  while(i < this.getDestapat().length && yes){
+    yes = this.getDestapat()[i];
+    i++;
+  }
+
+  return yes;
 };
