@@ -17,6 +17,9 @@ const VIDA_MAX = 3;
 var index = 1;
 var posicioSeleccionada = "";
 
+var waitingFunction;
+var phase = 1;
+
 function isInside(x, y, max_x, max_y){
   return ((x < max_x && x >= 0) && (y < max_y && y >= 0));
 }
@@ -299,6 +302,8 @@ function joc(){
   let jocIniciat = setInterval(function(){
 
     if(posicioSeleccionada == "abandonar") final = true;
+    
+    console.log("ps: " + posicioSeleccionada);
 
     if(posicioSeleccionada != "" && !final){
       //console.log(posicioSeleccionada);
@@ -308,9 +313,36 @@ function joc(){
       /*TODO hay que poner mas funciones y eso de momento estoy probando a ver que tal se verian las animaciones, el reset de las vidas esta off asi que nunca mueres,
        * para volver a activarlo solo quita el comentario de abajo */
       if(tauler.mapa[posY][posX] instanceof Zombi) {
+        tauler.mapa[posY][posX].interactuar(tauler);
+        console.log(tauler.mapa[posY][posX].getDestapat());
+        document.getElementById(posX + "," + posY).classList.add("destapat");
+        actualitzarElement(posX,posY, tauler);
+      } else
+      if(tauler.mapa[posY][posX] instanceof Estrella) {
+        tauler.mapa[posY][posX].interactuar(tauler);
         tauler.mapa[posY][posX].setDestapat([true]);
         console.log(tauler.mapa[posY][posX].getDestapat());
+        document.getElementById(posX + "," + posY).classList.add("destapat");
+        actualitzarElement(posX,posY, tauler);
+      } else
+      if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
         tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].setDestapat([true]);
+        console.log(tauler.mapa[posY][posX].getDestapat());
+        document.getElementById(posX + "," + posY).classList.add("destapat");
+        actualitzarElement(posX,posY, tauler);
+      } else
+      if(tauler.mapa[posY][posX] instanceof VidaExtra) {
+        tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].setDestapat([true]);
+        console.log(tauler.mapa[posY][posX].getDestapat());
+        document.getElementById(posX + "," + posY).classList.add("destapat");
+        actualitzarElement(posX,posY, tauler);
+      } else
+      if(tauler.mapa[posY][posX] instanceof DoblePunts) {
+        tauler.mapa[posY][posX].interactuar(tauler);
+        tauler.mapa[posY][posX].setDestapat([true]);
+        console.log(tauler.mapa[posY][posX].getDestapat());
         document.getElementById(posX + "," + posY).classList.add("destapat");
         actualitzarElement(posX,posY, tauler);
       } else {
@@ -319,7 +351,7 @@ function joc(){
       actualitzarVides(tauler.vida);
       //if(tauler.vida == 0) final = true;
       posicioSeleccionada = "";
-    } 
+    }
 
     if(final) {
       posicioSeleccionada = "";
@@ -407,6 +439,7 @@ window.onload = function(){
   dictionary[1] =  main;
   dictionary[0] =  cercarObj;
   actualitzarVides(3);
+  waitingFunction = setInterval(esperantAlUsuari, 1000);
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
   })
@@ -423,6 +456,7 @@ window.onload = function(){
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
+  waitingFunction = setInterval(esperantAlUsuari, 1000);
 }
 
 /* afegueix un texte a una ID donada per parametre */
