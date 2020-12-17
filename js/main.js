@@ -357,6 +357,7 @@ function joc(){
       posicioSeleccionada = "";
       reiniciarPartida();
       clearInterval(jocIniciat);
+      clearInterval(waitingFunction);
     };
   }, 50);
   
