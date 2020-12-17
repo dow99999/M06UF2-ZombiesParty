@@ -447,7 +447,7 @@ function main(){
 */
 function cercarObj(posX,posY){
   console.log(posY + "-" + posX);
-  posicioSeleccionada = posX + "," + posY;
+  posicioSeleccionada = (posX-1) + "," + (posY-1);
 }
 
 window.onload = function(){
