@@ -357,7 +357,7 @@ function joc(){
       posicioSeleccionada = "";
       reiniciarPartida();
       clearInterval(jocIniciat);
-      clearInterval(waitingFunction);
+      //clearInterval(waitingFunction);
     };
   }, 50);
   
@@ -440,7 +440,7 @@ window.onload = function(){
   dictionary[1] =  main;
   dictionary[0] =  cercarObj;
   actualitzarVides(3);
-  waitingFunction = setInterval(esperantAlUsuari, 1000);
+  //waitingFunction = setInterval(esperantAlUsuari, 1000);
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
   })
