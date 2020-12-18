@@ -387,7 +387,7 @@ function reiniciarPartida(){
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
   document.getElementById("gameDisplay").innerHTML = "<span id='waiting-user'>ESPERANDO AL USUARIO...</span><img src='./resources/waiting.gif' alt='waiting'>";
-  waitingFunction = setInterval(esperantAlUsuari, 1000);
+  //waitingFunction = setInterval(esperantAlUsuari, 1000);
   document.getElementById("confSize").style.display = "flex";
   document.getElementById("gameControls").style.display = "none";
   document.getElementById("inputSize").value = "";
@@ -492,7 +492,7 @@ window.onload = function(){
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
-  waitingFunction = setInterval(esperantAlUsuari, 1000);
+  //waitingFunction = setInterval(esperantAlUsuari, 1000);
 }
 
 /* afegueix un texte a una ID donada per parametre */
