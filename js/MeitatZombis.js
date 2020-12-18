@@ -1,5 +1,5 @@
 var MeitatZombis = function (x, y, img, muestra, id) {
-  img = "<img class='meitat-zombies' alt='vidaExtra' src='./resources/meitatZombie.gif'>";
+  img = "<img class='meitat-zombies "+ clase +"' alt='vidaExtra' src='./resources/meitatZombie.gif'>";
   Recompensa.apply(this, arguments);
 }
 
@@ -18,6 +18,6 @@ MeitatZombis.prototype.interactuar = function(posx, posy, tauler){
   }
 }
 
-MeitatZombis.prototype.moviment = function(x,y){
+MeitatZombis.prototype.moviment = function(x,y,clase){
   document.getElementById(x + "," + y).innerHTML = this.getFrame(true);
 }

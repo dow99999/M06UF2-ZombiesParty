@@ -24,7 +24,7 @@ var Elemento = function (x, y, img, muestra, id) {
     let check = false;
     if(destapat != null) check = destapat;
     if(check) return ar_img;
-    else return "<img class='grass' src='./resources/grass.png' alt='grass'>";
+    else return "<img class='grass " + clase +"' src='./resources/grass.png' alt='grass'>";
   }
 };
 

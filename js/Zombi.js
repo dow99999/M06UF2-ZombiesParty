@@ -1,5 +1,5 @@
 var Zombi = function(x, y, img, muestra, id){
-  img = ["<img src='./resources/ghost/ghost-appears.gif' alt='ghost'>", "<img src='./resources/ghost/ghost-shriek.gif' alt='ghost'>", "<img src='./resources/ghost/ghost-idle.gif' alt='ghost'>"];
+  img = ["<img class='mob " + clase +"' src='./resources/ghost/ghost-appears.gif' alt='ghost'>", "<img clase='" + clase +"' src='./resources/ghost/ghost-shriek.gif' alt='ghost'>", "<img src='./resources/ghost/ghost-idle.gif' alt='ghost'>"];
   Elemento.apply(this, arguments);
 
   /*this.interactuar = function(tauler){
@@ -26,23 +26,26 @@ Zombi.prototype.interactuar = function(tauler){
   }
 };
 
-Zombi.prototype.moviment = function(x,y){
+Zombi.prototype.moviment = function(x,y, clase){
   document.getElementById(x + "," + y).innerHTML = "";
   let frame = this.getFrame(true);
 
   setTimeout(function(){
     console.log("primera");
     document.getElementById(x + "," + y).innerHTML = frame[0];
+    document.getElementById(x + "," + y).childNodes[0].classList.add(clase);
   },100);
 
   setTimeout(function(){
     console.log("segunda");
     document.getElementById(x + "," + y).innerHTML = frame[1];
+    document.getElementById(x + "," + y).childNodes[0].classList.add(clase);
   },1100);
 
   setTimeout(function(){
     console.log("Tercera");
     document.getElementById(x +"," + y).innerHTML = frame[2];
+    document.getElementById(x + "," + y).childNodes[0].classList.add(clase);
   },3100);
 }
 

@@ -1,5 +1,5 @@
 var VidaExtra = function (x, y, img, muestra, id) {
-  img = "<img class='vida-extra' alt='vidaExtra' src='./resources/vidaExtra.gif'>";
+  img = "<img class='mob vida-extra "+ clase +"' alt='vidaExtra' src='./resources/vidaExtra.gif'>";
   Recompensa.apply(this, arguments);
 }
 
@@ -18,6 +18,6 @@ VidaExtra.prototype.interactua = function(posx, posy, tauler){ //por algun motiv
   }
 }
 
-VidaExtra.prototype.moviment = function(x,y){
+VidaExtra.prototype.moviment = function(x,y, clase){
   document.getElementById(x + "," + y).innerHTML = this.getFrame(true);
 }

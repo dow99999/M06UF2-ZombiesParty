@@ -16,6 +16,7 @@ const VIDA_MAX = 3;
 
 var index = 1;
 var posicioSeleccionada = "";
+var clase ="";
 
 var waitingFunction;
 var phase = 1;
@@ -31,6 +32,10 @@ function isInside(x, y, max_x, max_y){
  * @param {Object} tauler tablero 
  */
 function initTauler(taulerh, taulerw, tauler){
+        
+  if(taulerh < 16 && taulerh > 7) clase = "normal";
+  if(taulerh >= 16) clase = "min";
+  if(taulerh <= 7) clase = "max";
   let total = (taulerh * taulerw);
   tauler.elements.zombies = total / 4;
   tauler.elements.estrellas = Number.parseInt(taulerh);
@@ -199,8 +204,12 @@ function generarTipo(tipo, tauler){
 //Inicializar los listeners de cada caja en el tauler  
 function initEventListener(tauler){
   document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
+  let elements = document.getElementsByClassName("mob");
+  for(let i = 0; i < elements.length; i++){
+    elements[i].classList.add(clase);
+  }
 
-  let elements = document.getElementsByClassName("board");
+  elements = document.getElementsByClassName("board");
   for(let i = 0; i < elements.length; i++){
     console.log(elements[i]);
     elements[i].addEventListener("click", function(event){
@@ -248,17 +257,13 @@ function joc(){
       return aux;
     },
     printHTML:function(){
-      let clase ="";
-      if(this.h < 16 && this.h > 7) clase = "normal";
-      if(this.h >= 16) clase = "min";
-      if(this.h <= 7) clase = "max";
       let aux = "<div class='flex-column center " + clase + "'>";
       
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
           //console.log(this.mapa[y][x]);
-          aux += "<div id='" + x +"," + y +"' class='flex-column center board " + clase + "'>" + ((this.mapa[y][x] != "g" && this.mapa[y][x] != "G") ? this.mapa[y][x].getFrame() : (this.mapa[y][x] == "g") ? "<img class='grass' src='./resources/grass.png' alt='grass'>" : "<img class='grass' src='./resources/grass.png' alt='grass'>")  + "</div>";
+          aux += "<div id='" + x +"," + y +"' class='flex-column center board " + clase + "'>" + ((this.mapa[y][x] != "g" && this.mapa[y][x] != "G") ? this.mapa[y][x].getFrame() : (this.mapa[y][x] == "g") ? "<img class='grass "+ clase +"' src='./resources/grass.png' alt='grass'>" : "<img class='grass "+ clase +"' src='./resources/grass.png' alt='grass'>")  + "</div>";
         }
         aux += "</div>";
       }
@@ -333,29 +338,34 @@ function joc(){
       if(tauler.mapa[posY][posX] instanceof Zombi) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX,posY);
+        tauler.mapa[posY][posX].moviment(posX,posY, clase);
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX,posY);
+        tauler.mapa[posY][posX].moviment(posX,posY, clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX, posY);
+        tauler.mapa[posY][posX].moviment(posX, posY, clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
         tauler.mapa[posY][posX].interactua(posX, posY, tauler); //por algun motivo si se llama interactuar no va pero si se llama interactua si
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX, posY);
+        tauler.mapa[posY][posX].moviment(posX, posY, clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX, posY);
+        tauler.mapa[posY][posX].moviment(posX, posY, clase);
+
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
         //actualitzarElement(posX,posY, tauler);
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
@@ -381,12 +391,69 @@ function joc(){
   
 }
 
+function decidirClase(tipo, clase){
+  switch(tipo){
+    case "zombie":
+      switch(clase){
+        case "min":
+          break;
+        case "normal":
+          break;
+        case "max":
+          break;
+      }
+      break;
+    case "estrella":
+      switch(clase){
+        case "min":
+          break;
+        case "normal":
+          break;
+        case "max":
+          break;
+      }
+      break;
+    case "doblePunts":
+      switch(clase){
+        case "min":
+          break;
+        case "normal":
+          break;
+        case "max":
+          break;
+      }
+      break;
+    case "vidaExtra":
+      switch(clase){
+        case "min":
+          break;
+        case "normal":
+          break;
+        case "max":
+          break;
+      }
+      break;
+    case "meitatZombies":
+      switch(clase){
+        case "min":
+          break;
+        case "normal":
+          break;
+        case "max":
+          break;
+      }
+      break;
+
+  }
+  
+  return clase;
+}
+
 /* reiniciar partida */
 function reiniciarPartida(){
-  document.getElementById("gameDisplay").classList.remove("center");
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
-  document.getElementById("gameDisplay").innerHTML = "<span id='waiting-user'>ESPERANDO AL USUARIO...</span><img src='./resources/waiting.gif' alt='waiting'>";
+  document.getElementById("gameDisplay").innerHTML = "<img class='demon' src='./resources/demon/demon-idle.gif' alt='waiting'>";
   //waitingFunction = setInterval(esperantAlUsuari, 1000);
   document.getElementById("confSize").style.display = "flex";
   document.getElementById("gameControls").style.display = "none";
