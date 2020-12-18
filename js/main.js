@@ -206,7 +206,7 @@ function initEventListener(tauler){
     elements[i].addEventListener("click", function(event){
       let x = event.currentTarget.id.split(",")[0];
       let y = event.currentTarget.id.split(",")[1]
-      cercarObj(x,y);
+      cercarObj(Number.parseInt(x) + 1,Number.parseInt(y)+1);
     });
   }
 }
@@ -421,16 +421,28 @@ function actualitzarPuntuacio(punt){
 
 /* Actualitza las vidas que se muestran en funcion de la vida maxima y la actual */
 function actualitzarVides(current){
+  document.getElementById("vida").innerHTML = "";
   let vidas = "";
-  for(let i = 0; i < (VIDA_MAX - current); i++){
-    vidas += "<img alt='corazon' src='./resources/heart-black-2.png'>";
+  let boost = 0;
+  if(VIDA_MAX < current){
+    boost = current - VIDA_MAX;
+  }
+
+  for(let i = 0; i < ( (VIDA_MAX + boost) - current); i++){
+    vidas = "<img id='vida"+ i +"' alt='corazon-roto' src='./resources/heart/broken-heart.gif'>";
+    document.getElementById("vida").innerHTML = document.getElementById("vida").innerHTML + vidas; 
+    setTimeout(function(){
+      console.log(i);
+      console.log(document.getElementById("vida" + i));
+      document.getElementById("vida" + i).src = "./resources/heart/heart-4.png";
+    },300);
   }
   
   for(let i = 0; i < current; i++){
-    vidas += "<img alt='corazon' src='./resources/heart.png'>";
+    vidas = "<img alt='corazon' src='./resources/heart/heart.png'>";
+    document.getElementById("vida").innerHTML += vidas;
+    console.log(document.getElementById("vida").innerHTML);
   }
-
-  document.getElementById("vida").innerHTML = vidas;
 }
 
 function main(){
@@ -454,6 +466,9 @@ function cercarObj(posX,posY){
 }
 
 window.onload = function(){
+
+  loadStorage();
+
   let dictionary = [];
   dictionary[1] =  main;
   dictionary[0] =  cercarObj;
@@ -474,12 +489,11 @@ window.onload = function(){
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
-  document.getElementById()
   waitingFunction = setInterval(esperantAlUsuari, 1000);
 }
 
 /* afegueix un texte a una ID donada per parametre */
-function afeguirText(id, value){
+function afeguirText(id, value){ 
   if(document.getElementById(id)!=null)
     document.getElementById(id).innerHTML =  value; 
 }
@@ -490,3 +504,60 @@ function verificarNumero(value, min){
   return Number.isInteger(Number.parseInt(value[value.length - 1]));
 }
 
+/* carga las cookies o las crea */
+function loadStorage(){
+  document.getElementById("cookies").innerHTML = "";
+  let htmlCode = "";
+  let codes = "ganadas,perdidas,abandonadas";
+  for(let i = 5; i < 21; i++){
+    htmlCode = "<div class='cookie-container flex-column center'><span id='cookie[" + i + "," + i +"]' class='test'>["+ i + "," + i + "]</span></div>";
+    document.getElementById("cookies").innerHTML = document.getElementById("cookies").innerHTML + htmlCode;
+    document.getElementById("cookie[" +i + "," + i + "]").addEventListener("click", loadCookie);
+    for(let z = 0; z < codes.split(",").length; z++){
+      if(localStorage.getItem(i) == null) localStorage.setItem(i + "=" + codes.split(",")[z], 0);
+    }
+  }
+
+  for(let i = 5; i < 21; i++){
+    document.getElementById("cookie[" +i + "," + i + "]").addEventListener("click", loadCookie);
+  }
+  
+}
+
+/* guarda la cookie correspondiente */
+function updateCookie(x){
+  let currentGame = document.getElementById("size").value;
+  localStorage.setItem(currentGame + "=" + x, localStorage.getItem(currentGame + "=" + x)++);
+}
+
+/* carga la cookie seleccionada */
+function loadCookie(event){
+  setUpUnfold();
+  let codes = "ganadas,perdidas,abandonadas";
+  let htmlCode = "<div id='backToBase' class='flex-row'><img src='./resources/back-arrow.png' alt='back'></div>";
+  for(let i = 0; i < codes.split(",").length; i++){
+    console.log(codes.split(",")[i]);
+    htmlCode += "<div class='cookie-unfold m-top flex-column center'><span class='test flex-colum center'>" + codes.split(",")[i] + " = " + localStorage.getItem(event.target.id.split(",")[0].split("[")[1] + "=" + codes.split(",")[i]) + "</span></div>";
+  }
+  document.getElementById("cookies").innerHTML = htmlCode;
+  document.getElementById("backToBase").addEventListener("click", function(){
+    setUpCookies();
+    loadStorage();
+  });
+}
+
+/* cosas del css para que no quede tan feo arriba, quita algunas clases para que se vea mejor */
+function setUpUnfold(){
+  document.getElementById("cookies").classList.remove("flex-row");
+  document.getElementById("cookies").classList.remove("center");
+  document.getElementById("cookies").classList.remove("space-evenly");
+  document.getElementById("cookies").classList.add("flex-column");
+}
+
+/*lo mismo */
+function setUpCookies(){
+  document.getElementById("cookies").classList.add("flex-row");
+  document.getElementById("cookies").classList.add("center");
+  document.getElementById("cookies").classList.add("space-evenly");
+  document.getElementById("cookies").classList.remove("flex-column");
+}

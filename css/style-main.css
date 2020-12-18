@@ -204,6 +204,10 @@ DIV 1
     margin-bottom: 20px;
 }
 
+button {
+    cursor: pointer;
+}
+
 button:active{
     box-shadow: none;
     border: none;
@@ -215,10 +219,6 @@ button:focus{
 
 input:focus{
     outline: none;
-}
-
-.estadisticas {
-    background-color: #343531;
 }
 
 #estadisticas{
@@ -235,21 +235,46 @@ input:focus{
     margin-right: 0px;
 }
 
-#cookies{
+#cookies {
+    background-color: #343531;
+    flex-wrap: wrap;
     padding: 5px;
-    height: 100%;
 }
 
-#cookies > div > span{
-    margin-bottom: 10px;
+#cookies > div {
+    height: 25px;
+}
+
+.cookie-container{
+    width: 80px;
+    height: 50px;
+    background-color: #404040;
+    border: 1px solid #121312;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.cookie-unfold{
+    width: 100%;
+    height: 50px;
+    background-color: #404040;
+    border: 1px solid #121312;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.m-top{
+    margin-top: 10px;
 }
 
 #puntuacioActual{
-    width: 90%;
+    width: 92%;
     height: 90px;
     background-image: url('../resources/brick.jpg');
-    background-size: 180px 180px;
+    background-size: 184px 184px;
     border: 1px solid #404040;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 #puntuacioActual > div {
@@ -290,6 +315,15 @@ input:focus{
 
 #errorentrada > span {
     font-size: 23px;
+    color: #2d0714;
+}
+
+#backToBase > img {
+    width: 30px;
+    height: 30px;
+    filter: invert(4%) sepia(24%) saturate(140%) hue-rotate(71deg) brightness(94%) contrast(92%);
+    margin-top: 0px;
+    cursor: pointer;
 }
 
 /*
@@ -314,9 +348,9 @@ DIV 2
 }
 
 #gameDisplay > div > div > div {
-    border: 1px solid white;
+    border: 1px solid #404040;
     margin:5px;
-    color: white;
+    border-radius: 3px;
 }
 
 .board{
