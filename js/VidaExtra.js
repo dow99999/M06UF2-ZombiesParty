@@ -1,5 +1,5 @@
 var VidaExtra = function (x, y, img, muestra, id) {
-  img = "<img class='mob vida-extra "+ clase +"' alt='vidaExtra' src='./resources/vidaExtra.gif'>";
+  img = "<img class='mob vida-extra' alt='vidaExtra' src='./resources/vidaExtra.gif'>";
   Recompensa.apply(this, arguments);
 }
 

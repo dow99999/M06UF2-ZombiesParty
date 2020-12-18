@@ -357,7 +357,7 @@ function joc(){
         tauler.mapa[posY][posX].interactua(posX, posY, tauler); //por algun motivo si se llama interactuar no va pero si se llama interactua si
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX, posY, clase);
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("doblePuntuacio",clase));
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
@@ -392,61 +392,10 @@ function joc(){
 }
 
 function decidirClase(tipo, clase){
-  switch(tipo){
-    case "zombie":
-      switch(clase){
-        case "min":
-          break;
-        case "normal":
-          break;
-        case "max":
-          break;
-      }
-      break;
-    case "estrella":
-      switch(clase){
-        case "min":
-          break;
-        case "normal":
-          break;
-        case "max":
-          break;
-      }
-      break;
-    case "doblePunts":
-      switch(clase){
-        case "min":
-          break;
-        case "normal":
-          break;
-        case "max":
-          break;
-      }
-      break;
-    case "vidaExtra":
-      switch(clase){
-        case "min":
-          break;
-        case "normal":
-          break;
-        case "max":
-          break;
-      }
-      break;
-    case "meitatZombies":
-      switch(clase){
-        case "min":
-          break;
-        case "normal":
-          break;
-        case "max":
-          break;
-      }
-      break;
-
-  }
-  
-  return clase;
+  let base = "";
+  base = clase + "-" + tipo;
+  console.log(base);  
+  return base;
 }
 
 /* reiniciar partida */
@@ -463,27 +412,6 @@ function reiniciarPartida(){
   actualitzarPuntuacio(0);
   index = 1;
 }
-
-/* pruebas */
-function actualitzarElement(x,y,tauler){
-  document.getElementById(x + "," + y).innerHTML = "";
-
-  setTimeout(function(){
-    console.log("primera");
-    document.getElementById(x + "," + y).innerHTML = tauler.mapa[y][x].getFrame()[0];
-  },100);
-
-  setTimeout(function(){
-    console.log("segunda");
-    document.getElementById(x + "," + y).innerHTML = tauler.mapa[y][x].getFrame()[1];
-  },1100);
-
-  setTimeout(function(){
-    console.log("Tercera");
-    document.getElementById(x +"," + y).innerHTML = tauler.mapa[y][x].getFrame()[2];
-  },3100);
-}
-
 /* Actualiza la puntuacion*/
 function actualitzarPuntuacio(punt){
   document.getElementById("puntuacio").innerHTML = punt;

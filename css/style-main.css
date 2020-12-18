@@ -465,3 +465,39 @@ img {
     z-index: 1;
 }
 
+
+/* tamaños para los objetos */
+
+.min-zombie{
+    width: 150px !important;
+    height: 150px !important;
+    margin-bottom: 40px !important;
+}
+
+.normal-zombie{
+    width: 240px !important;
+    height: 170px !important;
+}
+
+.max-zombie{
+    width: 260px !important;
+    height: 500px !important;
+}
+
+.min-doblePuntuacio{
+    width: 20px !important;
+    height: 50px !important;
+    margin-bottom: 45px !important;
+}
+
+.normal-doblePuntuacio{
+    width: 30px !important;
+    height: 70px !important;
+    margin-bottom: 50px !important;
+}
+
+.max-doblePuntuacio{
+    width: 40px !important;
+    height: 80px !important;
+
+}
