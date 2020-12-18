@@ -534,7 +534,7 @@ function updateCookie(x){
 function loadCookie(event){
   setUpUnfold();
   let codes = "ganadas,perdidas,abandonadas";
-  let htmlCode = "<div id='backToBase' class='flex-row'><img src='./resources/back-arrow.png' alt='back'></div>";
+  let htmlCode = "<div id='backToBase' class='flex-row'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >ESTADISTICAS DE ["+ event.target.id.split(",")[0].split("[")[1] + "," + event.target.id.split(",")[0].split("[")[1] + "]</span></div></div>";
   for(let i = 0; i < codes.split(",").length; i++){
     console.log(codes.split(",")[i]);
     htmlCode += "<div class='cookie-unfold m-top flex-column center'><span class='test flex-colum center'>" + codes.split(",")[i] + " = " + localStorage.getItem(event.target.id.split(",")[0].split("[")[1] + "=" + codes.split(",")[i]) + "</span></div>";

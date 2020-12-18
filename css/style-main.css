@@ -69,12 +69,6 @@ DIV 1
     border-radius: 6px;
 }
 
-.test{
-    text-shadow: -1px -1px 0px #404040; 
-    font-size: 20px;
-    font-weight: bold;
-    color: #121312;
-}
 
 #entrada {
     width: 50px;
@@ -160,6 +154,8 @@ DIV 1
     display: none;
 }
 
+
+
 #inputs{
     width: 20%;
     min-width: 400px;
@@ -194,6 +190,12 @@ DIV 1
     box-shadow: 0px 3px 0px #121312;
     height: 40px;
     border-radius: 1px;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.buttons:hover{
+    color: #0a5d00;
+    /*text-shadow: -1px -1px 0px #121312;*/
 }
 
 #botones{
@@ -219,6 +221,11 @@ button:focus{
 
 input:focus{
     outline: none;
+    color: #0a5d00 !important;
+}
+
+input{
+    transition: color 0.2s;
 }
 
 #estadisticas{
@@ -252,6 +259,23 @@ input:focus{
     border: 1px solid #121312;
     border-radius: 3px;
     cursor: pointer;
+    transition: border 0.2s;
+}
+
+.cookie-container:hover{
+    border:1px solid #0a5d00;
+}
+
+.test{
+    text-shadow: -1px -1px 0px #404040; 
+    font-size: 20px;
+    font-weight: bold;
+    color: #121312;
+    transition: color 0.2s;
+}
+
+.cookie-container > .test:hover{
+    color:#0a5d00;
 }
 
 .cookie-unfold{
@@ -261,6 +285,10 @@ input:focus{
     border: 1px solid #121312;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.cookie-unfold > span:hover{
+
 }
 
 .m-top{
@@ -324,6 +352,11 @@ input:focus{
     filter: invert(4%) sepia(24%) saturate(140%) hue-rotate(71deg) brightness(94%) contrast(92%);
     margin-top: 0px;
     cursor: pointer;
+    transition: filter 0.4s;
+}
+
+#backToBase > img:hover{
+    filter:invert(25%) sepia(33%) saturate(2502%) hue-rotate(79deg) brightness(93%) contrast(102%);
 }
 
 /*
@@ -345,12 +378,21 @@ DIV 2
     font-size: 40px;
     font-weight: bold;
     letter-spacing: 3px;
+    text-shadow: -1px -1px #404040;
 }
 
 #gameDisplay > div > div > div {
     border: 1px solid #404040;
     margin:5px;
     border-radius: 3px;
+}
+
+#header-cookie{
+    height: 100%;
+}
+
+#header-cookie > span{
+    font-size: 22px !important;
 }
 
 .board{
