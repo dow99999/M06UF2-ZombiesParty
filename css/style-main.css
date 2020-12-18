@@ -146,7 +146,6 @@ DIV 1
 
 #botones{
     width: 90% !important;
-    height: 150px;
     border-radius: 15px;
 }
 
@@ -336,12 +335,27 @@ input{
 #errorentrada {
     background-color: #343531;
     width: 90%;
-    height: 50px;
+    height: 100px;
     border: 1px solid #404040;
     border-radius: 4px;
 }
 
-#errorentrada > span {
+#creditos {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#creditos:hover{
+    color:#0a5d00
+}
+
+.credit-header{
+    width: 100%;
+}
+
+#errorentrada > #errortxt {
+    display: flex;
+    height: 65px;
     font-size: 23px;
     color: #2d0714;
 }

@@ -487,7 +487,7 @@ window.onload = function(){
   window.document.getElementById("inputY").addEventListener('input', function(event){
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
-  //waitingFunction = setInterval(esperantAlUsuari, 1000);
+  window.document.getElementById("creditos").addEventListener('click', loadCredits);
 }
 
 /* afegueix un texte a una ID donada per parametre */
@@ -526,6 +526,18 @@ function loadStorage(){
 function updateCookie(x){
   let currentGame = document.getElementById("size").value;
   localStorage.setItem(currentGame + "=" + x, localStorage.getItem(currentGame + "=" + x)++);
+}
+
+function loadCredits(){
+  let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >CREDITOS</span></div></div>";
+  htmlCode += "<span class='test' >GAME DIRECTOR & LEVEL DESIGNER</span>";
+  htmlCode += "<span class='test'>Diego Muñoz & Oriol Fornos</span>";
+  document.getElementById("cookies").innerHTML = htmlCode;
+  document.getElementById("backToBase").classList.add();
+  document.getElementById("backToBase").addEventListener("click", function(){
+    setUpCookies();
+    loadStorage();
+  });
 }
 
 /* carga la cookie seleccionada */
