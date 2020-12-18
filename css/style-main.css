@@ -58,7 +58,6 @@ DIV 1
     font-size: 25px;
     font-weight: bold;
     letter-spacing: 4px;
-    color: #121312;
 }
 
 #panel > div {
@@ -181,7 +180,7 @@ DIV 1
     padding: 0px;
     width: 80%;
     border: 1px solid #404040;
-    color: #121312;
+    color: #b1beae;
     text-shadow: -1px -1px 0px #404040;
     font-weight: bold;
     font-size: 19px;
@@ -269,7 +268,7 @@ input{
     text-shadow: -1px -1px 0px #404040; 
     font-size: 20px;
     font-weight: bold;
-    color: #121312;
+    color: #b1beae;
     transition: color 0.2s;
 }
 
@@ -514,4 +513,22 @@ img {
     width: 40px !important;
     height: 80px !important;
 
+}
+
+.min-calavera{
+    width: 20px !important;
+    height: 20px !important;
+    margin-bottom: 62px !important;
+}
+
+
+.normal-calavera{
+ width: 30px !important;
+ height: 30px !important;   
+}
+
+
+.max-calavera{
+    width: 40px !important;
+    height: 40px !important;
 }

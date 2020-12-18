@@ -350,7 +350,7 @@ function joc(){
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX, posY, clase);
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("calavera",clase));
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
@@ -474,17 +474,51 @@ window.onload = function(){
   window.document.getElementById("abandonar").addEventListener('click', function(){
     posicioSeleccionada = "abandonar";
   });
+  
+  window.document.getElementById("inputSize").addEventListener("keyup", function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      document.getElementById("submit").click();
+      console.log("hello");
+    }
+  });
+
+  window.document.getElementById("inputX").addEventListener("keyup", function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      if(document.getElementById("inputX").value != null && document.getElementById("inputY").value != null)document.getElementById("submit").click();
+      console.log("hello");
+    }
+  });
+
+  window.document.getElementById("inputY").addEventListener("keyup", function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      if(document.getElementById("inputX").value != null && document.getElementById("inputY").value != null)document.getElementById("submit").click();
+      console.log("hello");
+    }
+  });
+
   window.document.getElementById("submit").addEventListener('click', function(){
     let size = document.getElementById("inputSize").value;
     let x = document.getElementById("inputX").value;
     let y = document.getElementById("inputY").value;
+    
     if(verificarNumero(size, (5 * index))) dictionary[index](x, y);
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      document.getElementById("inputX").click();
+    }
     verificarNumero(event.target.value, 0) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      document.getElementById("inputX").click();
+    }
     verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
   window.document.getElementById("creditos").addEventListener('click', loadCredits);
