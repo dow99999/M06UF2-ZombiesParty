@@ -383,6 +383,11 @@ input{
     margin-top: 60px;
 }
 
+.demon{
+    width:430px;
+    height:300px;
+}
+
 /*
 DIV 2
 */
@@ -392,17 +397,12 @@ DIV 2
     margin-top: 10px;
 }
 
-#gameDisplay > img {
-    height: 80px;
-    width: 100px;
-}
-
 #gameDisplay > span{
-    color: #121312;
+    color: #2d0714;
     font-size: 40px;
     font-weight: bold;
     letter-spacing: 3px;
-    text-shadow: -1px -1px #404040;
+    text-shadow: -1px -1px black;
 }
 
 #gameDisplay > div > div > div {
