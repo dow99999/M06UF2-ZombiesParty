@@ -1,4 +1,5 @@
 var MeitatZombis = function (x, y, img, muestra, id) {
+  img = "<img class='meitat-zombies' alt='vidaExtra' src='./resources/meitatZombie.gif'>";
   Recompensa.apply(this, arguments);
 }
 
@@ -15,4 +16,8 @@ MeitatZombis.prototype.interactuar = function(posx, posy, tauler){
       this.collect();
     }
   }
+}
+
+MeitatZombis.prototype.moviment = function(x,y){
+  document.getElementById(x + "," + y).innerHTML = this.getFrame(true);
 }

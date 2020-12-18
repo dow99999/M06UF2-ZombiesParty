@@ -26,5 +26,25 @@ Zombi.prototype.interactuar = function(tauler){
   }
 };
 
+Zombi.prototype.moviment = function(x,y){
+  document.getElementById(x + "," + y).innerHTML = "";
+  let frame = this.getFrame(true);
+
+  setTimeout(function(){
+    console.log("primera");
+    document.getElementById(x + "," + y).innerHTML = frame[0];
+  },100);
+
+  setTimeout(function(){
+    console.log("segunda");
+    document.getElementById(x + "," + y).innerHTML = frame[1];
+  },1100);
+
+  setTimeout(function(){
+    console.log("Tercera");
+    document.getElementById(x +"," + y).innerHTML = frame[2];
+  },3100);
+}
+
 
 

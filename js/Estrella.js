@@ -1,4 +1,5 @@
 var Estrella = function(x, y, img, muestra, id){
+  img = "<img class='star-show' alt='star' src='./resources/star.png'>"
   Elemento.apply(this, arguments);
 };
 
@@ -15,4 +16,8 @@ Estrella.prototype.interactuar = function(tauler){
     tauler.estrelles++;
     this.setDestapat([true]);
   }
+}
+
+Estrella.prototype.moviment = function(x,y){
+  document.getElementById(x + "," + y).innerHTML = this.getFrame(true);
 }

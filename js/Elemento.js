@@ -20,12 +20,9 @@ var Elemento = function (x, y, img, muestra, id) {
 
   this.getId = function () { return identificador; }
 
-  this.getFrame = function () {
-    let check = true;
-    for(let i = 0; i < this.getDestapat().length;i++){
-      if(check) check = this.getDestapat()[i];
-    }
-
+  this.getFrame = function (destapat) {
+    let check = false;
+    if(destapat != null) check = destapat;
     if(check) return ar_img;
     else return "<img class='grass' src='./resources/grass.png' alt='grass'>";
   }

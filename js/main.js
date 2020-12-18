@@ -333,26 +333,29 @@ function joc(){
       if(tauler.mapa[posY][posX] instanceof Zombi) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        actualitzarElement(posX,posY, tauler);
+        tauler.mapa[posY][posX].moviment(posX,posY);
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
-        //actualitzarElement(posX,posY, tauler);
+        tauler.mapa[posY][posX].moviment(posX,posY);
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
+        tauler.mapa[posY][posX].moviment(posX, posY);
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
         tauler.mapa[posY][posX].interactua(posX, posY, tauler); //por algun motivo si se llama interactuar no va pero si se llama interactua si
         document.getElementById(posX + "," + posY).classList.add("destapat");
+        tauler.mapa[posY][posX].moviment(posX, posY);
         //actualitzarElement(posX,posY, tauler);
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
+        tauler.mapa[posY][posX].moviment(posX, posY);
         //actualitzarElement(posX,posY, tauler);
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");

@@ -359,6 +359,30 @@ input{
     filter:invert(25%) sepia(33%) saturate(2502%) hue-rotate(79deg) brightness(93%) contrast(102%);
 }
 
+.vida-extra{
+    width: 50px;
+    height: 90px;
+    margin-top: 30px;
+}
+
+.star-show{
+    width: 50px;
+    height: 50px;
+    margin-top: 60px;
+}
+
+.double-points{
+    width: 65px;
+    height: 50px;
+    margin-top: 60px;
+}
+
+.meitat-zombies{
+    width: 50px;
+    height: 60px;
+    margin-top: 60px;
+}
+
 /*
 DIV 2
 */
