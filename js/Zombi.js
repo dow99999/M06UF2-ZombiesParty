@@ -31,20 +31,17 @@ Zombi.prototype.moviment = function(x,y, clase){
   let frame = this.getFrame(true);
 
   setTimeout(function(){
-    console.log("primera");
     document.getElementById(x + "," + y).innerHTML = frame[0];
     
     document.getElementById(x + "," + y).childNodes[0].classList.add(decidirClase("zombie",clase));
   },100);
 
   setTimeout(function(){
-    console.log("segunda");
     document.getElementById(x + "," + y).innerHTML = frame[1];
     document.getElementById(x + "," + y).childNodes[0].classList.add(decidirClase("zombie",clase));
   },1100);
 
   setTimeout(function(){
-    console.log("Tercera");
     document.getElementById(x +"," + y).innerHTML = frame[2];
     document.getElementById(x + "," + y).childNodes[0].classList.add(decidirClase("zombie",clase));
   },3100);

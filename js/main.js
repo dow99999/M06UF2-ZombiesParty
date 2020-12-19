@@ -211,7 +211,7 @@ function initEventListener(tauler){
 
   elements = document.getElementsByClassName("board");
   for(let i = 0; i < elements.length; i++){
-    console.log(elements[i]);
+    //console.log(elements[i]);
     elements[i].addEventListener("click", function(event){
       let x = event.currentTarget.id.split(",")[0];
       let y = event.currentTarget.id.split(",")[1]
@@ -316,6 +316,7 @@ function joc(){
 
   initTauler(tauler.h, tauler.w, tauler);
   actualitzarVides(tauler.vida);
+  actualitzarEstrelles(tauler.estrelles,tauler.elements.estrellas);
 
   console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
 
@@ -339,51 +340,74 @@ function joc(){
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX,posY, clase);
+        afeguirText("errortxt", "Un Fantasma te ha golpeado! Acabas de perder una vida, una pena eh?");
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX,posY, clase);
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("cristal",clase));
+        afeguirText("errortxt", "Acabas de descubir un cristal! Enorabuena! Ahora seras rico, no?");
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX, posY, clase);
         document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("calavera",clase));
-        //actualitzarElement(posX,posY, tauler);
+        afeguirText("errortxt", "Busca las Calaveras! Te permitiran arriesgarte menos.");
       } else
       if(tauler.mapa[posY][posX] instanceof VidaExtra) {
         tauler.mapa[posY][posX].interactua(posX, posY, tauler); //por algun motivo si se llama interactuar no va pero si se llama interactua si
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX, posY, clase);
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("doblePuntuacio",clase));
-        //actualitzarElement(posX,posY, tauler);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("vidaExtra",clase));
+        afeguirText("errortxt", "Estas pociones no hacen milagros, pero te haran un gran favor.");
       } else
       if(tauler.mapa[posY][posX] instanceof DoblePunts) {
         tauler.mapa[posY][posX].interactuar(posX, posY, tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
         tauler.mapa[posY][posX].moviment(posX, posY, clase);
 
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(clase);
-        //actualitzarElement(posX,posY, tauler);
+        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("doblePuntos",clase));
+        afeguirText("errortxt", "La poción de Shan Gri La! Se dice que duplica el poder de tus cristales.");
       } else {
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
         tauler.matriu[posY][posX] = GESP_D;
         tauler.puntuacio += 50;
-        //tauler.mapa[posY][posX].setDestapat([true]);
+        afeguirText("errortxt", "Solo es hierba... como no.");
       }
       actualitzarVides(tauler.vida);
       actualitzarPuntuacio(tauler.puntuacio);
-      //if(tauler.vida == 0) final = true;
+      actualitzarEstrelles(tauler.estrelles,tauler.elements.estrellas);
+      if(tauler.vida == 0 || tauler.estrelles == tauler.elements.estrellas) final = true;
       posicioSeleccionada = "";
       tauler.updateTaulerMatrix();
       console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
     }
 
     if(final) {
+      let result = "";
+      if(tauler.vidas == 0) result = "Perdidas";
+      if(tauler.estrelles == tauler.elements.estrellas) result = "Ganadas";
+      if(posicioSeleccionada == "abandonar") result = "Abandonadas";
+      
+      updateCookie(result, tauler.h);
+      updateCookie("Puntuacion más alta", tauler.h, tauler.puntuacio);
+      final = false;
       posicioSeleccionada = "";
-      reiniciarPartida();
+      actualitzarEstrelles(0,0);
+      switch(result){
+        case "Perdidas":
+          afeguirText("errortxt","Has perdido la partida... Es muy dificil recoger "+ tauler.elements.estrellas +" cristales eh?");
+          break;
+        case "Ganadas":
+          afeguirText("errortxt","Increible acontecimiento, pense que no lo lograrias... pero aqui estamos, estoy orgulloso.");
+          break;
+        case "Abandonadas":
+          afeguirText("errortxt","Una retirada a tiempo siempre es una victoria.");
+          break;
+      }
+      setTimeout(reiniciarPartida, 5000);
       clearInterval(jocIniciat);
       //clearInterval(waitingFunction);
     };
@@ -391,6 +415,21 @@ function joc(){
   
 }
 
+/* guarda la cookie correspondiente */
+function updateCookie(x, currentGame, max){
+  if(max != null){
+    console.log("before - " + localStorage.getItem(currentGame + "=" + x) + " - max: " + max);
+    if(max > localStorage.getItem(currentGame + "=" + x)) localStorage.setItem(currentGame + "=" + x, max);
+    console.log("after - " + localStorage.getItem(currentGame + "=" + x));
+  } else {
+    console.log("before - " + localStorage.getItem(currentGame + "=" + x));
+    localStorage.setItem(currentGame + "=" + x, Number.parseInt(localStorage.getItem(currentGame + "=" + x)) + 1);
+    console.log("after - " + localStorage.getItem(currentGame + "=" + x));
+  }
+
+}
+
+/* decide la clase que tiene que usar las imagenes en funcion del tamaño de la matriz */
 function decidirClase(tipo, clase){
   let base = "";
   base = clase + "-" + tipo;
@@ -412,6 +451,12 @@ function reiniciarPartida(){
   actualitzarPuntuacio(0);
   index = 1;
 }
+
+/* Actualitzar estrelles */
+function actualitzarEstrelles(current, max){
+  document.getElementById("estrellas").innerHTML = current + "/" + max;
+}
+
 /* Actualiza la puntuacion*/
 function actualitzarPuntuacio(punt){
   document.getElementById("puntuacio").innerHTML = punt;
@@ -422,25 +467,36 @@ function actualitzarVides(current){
   document.getElementById("vida").innerHTML = "";
   let vidas = "";
   let boost = 0;
-  if(VIDA_MAX < current){
-    boost = current - VIDA_MAX;
-  }
 
   for(let i = 0; i < ( (VIDA_MAX + boost) - current); i++){
-    vidas = "<img id='vida"+ i +"' alt='corazon-roto' src='./resources/heart/broken-heart.gif'>";
-    document.getElementById("vida").innerHTML = document.getElementById("vida").innerHTML + vidas; 
-    setTimeout(function(){
-      console.log(i);
-      console.log(document.getElementById("vida" + i));
-      document.getElementById("vida" + i).src = "./resources/heart/heart-4.png";
-    },300);
+    vidas += "<img alt='corazon-roto' src='./resources/heart/heart-3.png'>";
   }
-  
+  /*
   for(let i = 0; i < current; i++){
     vidas = "<img alt='corazon' src='./resources/heart/heart.png'>";
     document.getElementById("vida").innerHTML += vidas;
-    console.log(document.getElementById("vida").innerHTML);
+  } */
+
+  if(VIDA_MAX < current) {
+    vidas = "";
+    //console.log(current);
+    //console.log(VIDA_MAX);
+    for(let i = VIDA_MAX; i < current; i++){
+      vidas += "<img class='golden-heart' alt='corazon' src='./resources/heart/heart.png'>";
+    }
+
+    for(let i = 0; i < VIDA_MAX; i++){
+      vidas += "<img alt='corazon' src='./resources/heart/heart.png'>";
+    }
+  } else {
+    for(let i = 0; i < current; i++){
+      vidas += "<img alt='corazon' src='./resources/heart/heart.png'>";
+    }
   }
+
+  document.getElementById("vida").innerHTML += vidas;
+
+  
 }
 
 function main(){
@@ -459,7 +515,7 @@ function main(){
 *
 */
 function cercarObj(posX,posY){
-  console.log(posY + "-" + posX);
+  //console.log(posY + "-" + posX);
   posicioSeleccionada = (posX-1) + "," + (posY-1);
 }
 
@@ -479,7 +535,6 @@ window.onload = function(){
     if(event.keyCode == 13){
       event.preventDefault();
       document.getElementById("submit").click();
-      console.log("hello");
     }
   });
 
@@ -487,7 +542,6 @@ window.onload = function(){
     if(event.keyCode == 13){
       event.preventDefault();
       if(document.getElementById("inputX").value != null && document.getElementById("inputY").value != null)document.getElementById("submit").click();
-      console.log("hello");
     }
   });
 
@@ -495,8 +549,12 @@ window.onload = function(){
     if(event.keyCode == 13){
       event.preventDefault();
       if(document.getElementById("inputX").value != null && document.getElementById("inputY").value != null)document.getElementById("submit").click();
-      console.log("hello");
     }
+  });
+
+  window.document.getElementById("mostrarLeyenda").addEventListener('click', function(){
+    if(document.getElementById("leyenda").style.opacity == 0) mostrarLeyenda(true);
+    else mostrarLeyenda(false);
   });
 
   window.document.getElementById("submit").addEventListener('click', function(){
@@ -524,6 +582,25 @@ window.onload = function(){
   window.document.getElementById("creditos").addEventListener('click', loadCredits);
 }
 
+/* mostra o amaga la llegenda en funcio de si esta amagada o no */
+
+function mostrarLeyenda(x){
+  let opacity = "0";
+  if(x) {
+    document.getElementById("mostrarLeyenda").src = "./resources/close-icon.png";
+    opacity = "1";
+  }
+  else {
+    document.getElementById("mostrarLeyenda").src = "./resources/question-icon.png";
+    opacity = "0";
+  };
+
+  //console.log(opacity)
+
+
+  document.getElementById("leyenda").style.opacity = opacity;
+}
+
 /* afegueix un texte a una ID donada per parametre */
 function afeguirText(id, value){ 
   if(document.getElementById(id)!=null)
@@ -540,13 +617,13 @@ function verificarNumero(value, min){
 function loadStorage(){
   document.getElementById("cookies").innerHTML = "";
   let htmlCode = "";
-  let codes = "ganadas,perdidas,abandonadas";
+  let codes = "Ganadas,Perdidas,Abandonadas,Puntuacion más alta";
   for(let i = 5; i < 21; i++){
     htmlCode = "<div class='cookie-container flex-column center'><span id='cookie[" + i + "," + i +"]' class='test'>["+ i + "," + i + "]</span></div>";
     document.getElementById("cookies").innerHTML = document.getElementById("cookies").innerHTML + htmlCode;
     document.getElementById("cookie[" +i + "," + i + "]").addEventListener("click", loadCookie);
     for(let z = 0; z < codes.split(",").length; z++){
-      if(localStorage.getItem(i) == null) localStorage.setItem(i + "=" + codes.split(",")[z], 0);
+      if(localStorage.getItem(i + "=" + codes.split(",")[z]) == null) localStorage.setItem(i + "=" + codes.split(",")[z], 0);
     }
   }
 
@@ -556,12 +633,8 @@ function loadStorage(){
   
 }
 
-/* guarda la cookie correspondiente */
-function updateCookie(x){
-  let currentGame = document.getElementById("size").value;
-  localStorage.setItem(currentGame + "=" + x, localStorage.getItem(currentGame + "=" + x)++);
-}
 
+/* carga los creditos en las estadisticas */
 function loadCredits(){
   let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >CREDITOS</span></div></div>";
   htmlCode += "<span class='test' >GAME DIRECTOR & LEVEL DESIGNER</span>";
@@ -577,10 +650,10 @@ function loadCredits(){
 /* carga la cookie seleccionada */
 function loadCookie(event){
   setUpUnfold();
-  let codes = "ganadas,perdidas,abandonadas";
+  let codes = "Ganadas,Perdidas,Abandonadas,Puntuacion más alta";
   let htmlCode = "<div id='backToBase' class='flex-row'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >ESTADISTICAS DE ["+ event.target.id.split(",")[0].split("[")[1] + "," + event.target.id.split(",")[0].split("[")[1] + "]</span></div></div>";
   for(let i = 0; i < codes.split(",").length; i++){
-    console.log(codes.split(",")[i]);
+    //console.log(codes.split(",")[i]);
     htmlCode += "<div class='cookie-unfold m-top flex-column center'><span class='test flex-colum center'>" + codes.split(",")[i] + " = " + localStorage.getItem(event.target.id.split(",")[0].split("[")[1] + "=" + codes.split(",")[i]) + "</span></div>";
   }
   document.getElementById("cookies").innerHTML = htmlCode;

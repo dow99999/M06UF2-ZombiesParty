@@ -53,8 +53,12 @@
         <div id="estadisticas" class="flex-column center">
             <div id="puntuacioActual" class="flex-column center">
               <div class="flex-column">
-                <span class="flex-row center space-evenly f-w" id="vida"></span>
-                <span class="flex-column center f-w" id="puntuacio">0</span>
+                <span class="flex-row center" id="vida"></span>
+                <div class="flex-row center space-between">
+                  <span class="flex-column center" id="puntuacio">0</span>
+                  <span class="flex-row center" id="estrellas-div"><span id="estrellas" class="test">0/0</span><img id="puntImg" src="resources/star.png"></span>
+                </div>
+                
               </div>
 
             </div>
@@ -73,6 +77,57 @@
       </div>
       
 
+    </div>
+    <img id="mostrarLeyenda" src="./resources/question-icon.png">
+    <div id="leyenda" class="flex-column center">
+      <div id="leyenda-header" class="flex-row center space-between">
+        <span class="test">LEYENDA</span>
+      </div>
+
+      <div class="flex-row flex-start f-w">
+        <div class="flex-column center row">
+          <img class="ghost" src='./resources/ghost/ghost-idle.png'>
+        </div>
+        <div class="flex-column center f-w">
+          <span class="leyenda-text flex-column center">Te quita un corazón.</span>
+        </div>
+
+      </div>
+      <div class="flex-row flex-start f-w">
+        <div class="flex-column center weird row">
+          <img class="vida-extra" src='./resources/vidaExtra.png'>
+        </div>
+        <div class="flex-column center f-w">
+          <span class="leyenda-text flex-column center">Te da una vida extra, hasta un maximo de 5.</span>
+        </div>
+      </div>
+      <div class="flex-row flex-start f-w">
+        <div class="flex-column center row">
+          <img class="double-points" src='./resources/doublePoints.png'>
+        </div>
+        <div class="flex-column center f-w">
+          <span class="leyenda-text flex-column center ">Multiplica tus puntos acutales por dos!</span>
+        </div>
+
+      </div>
+      <div class="flex-row flex-start f-w ">
+        <div class="flex-column center row">
+          <img class="star-show" src='./resources/star.png'>
+        </div>
+        <div class="flex-column center f-w">
+          <span class="leyenda-text flex-column center ">Te da 200 puntos.</span>
+        </div>
+
+      </div>
+      <div class="flex-row flex-start f-w ">
+        <div class="flex-column center row">
+          <img class="meitat-zombies" src='./resources/skull-idle.png'>
+        </div>
+        <div class="flex-column center f-w">
+          <span class="leyenda-text flex-column center ">Remueve la mitad de los fantasmas.</span>
+        </div>
+
+      </div>
     </div>
   </body>
 </html>

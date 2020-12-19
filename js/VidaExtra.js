@@ -1,5 +1,5 @@
 var VidaExtra = function (x, y, img, muestra, id) {
-  img = "<img class='mob vida-extra' alt='vidaExtra' src='./resources/vidaExtra.gif'>";
+  img = "<img class='mob vida-extra' alt='vidaExtra' src='./resources/vidaExtra.png'>";
   Recompensa.apply(this, arguments);
 }
 
@@ -12,7 +12,7 @@ VidaExtra.prototype.interactua = function(posx, posy, tauler){ //por algun motiv
   if(index != null){
     this.setDestapat(true, index);
     if(this.areAllVisible() && !this.isCollected()){
-      tauler.vida++;
+      if(tauler.vida < 5) tauler.vida++;
       this.collect();
     }
   }
