@@ -335,6 +335,7 @@ function joc(){
   document.getElementById("puntuacio").innerHTML = tauler.puntuacio;
   let final = false;
   let first = true;
+  posicioSeleccionada = "";
   let jocIniciat = setInterval(function(){
 
     if(posicioSeleccionada == "abandonar") final = true;
@@ -543,6 +544,7 @@ function main(){
 */
 function cercarObj(posX,posY){
   if(waitingFunction == "") posicioSeleccionada = (posX-1) + "," + (posY-1);
+  console.log(posicioSeleccionada);
 }
 
 window.onload = function(){
