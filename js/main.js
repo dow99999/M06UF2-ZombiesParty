@@ -18,7 +18,7 @@ var index = 1;
 var posicioSeleccionada = "";
 var clase ="";
 
-var waitingFunction;
+var waitingFunction = "";
 var phase = 1;
 
 function isInside(x, y, max_x, max_y){
@@ -67,139 +67,22 @@ function initTauler(taulerh, taulerw, tauler){
 
   //llenar matriz de hierba
 
-  for(let y = 0; y < taulerh; y++){
-    tauler.matriu[y] = new Array();
-    tauler.mapa[y] = new Array(); 
-    for(let x = 0; x < taulerw; x++){
-      tauler.matriu[y][x] = GESP_T;
-      tauler.mapa[y][x] = GESP_T;
-    }
-  }
-
-  //console.log(tauler.elements);
-
+  tauler.rellenarHierba();
   //TODO generar objetos dentro de la matriz segun los elementos de la tabla vida extra
   //TODO meter lo de abajo en funciones
-
-  for(let i = 0; i < tauler.elements.vidaExtra; i++){
-    let aux_x;
-    let aux_y;
-    let vertical = (Math.random() * 2 < 1);
-    let cabe = false;
-
-    do {
-      aux_x = Math.floor(Math.random() * taulerw);
-      aux_y = Math.floor(Math.random() * taulerh);
-
-      if(vertical){
-        if(isInside(aux_x, aux_y - 1, taulerw, taulerh) && isInside(aux_x, aux_y + 1, taulerw, taulerh))
-          cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y + 1][aux_x] == GESP_T;
-      } else {
-        if(isInside(aux_x - 1, aux_y, taulerw, taulerh) && isInside(aux_x + 1, aux_y, taulerw, taulerh))
-          cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x + 1] == GESP_T;
-      }
-      
-    } while(!cabe);
-
-      tauler.objects.vidaExtra.push(
-        new VidaExtra(
-          vertical ? [aux_x, aux_x, aux_x] : [aux_x - 1, aux_x, aux_x + 1],
-          vertical ? [aux_y - 1, aux_y, aux_y + 1] : [aux_y, aux_y, aux_y],
-          null,
-          [false, false, false],
-          VIDA_T
-        )
-      );
-      tauler.updateTaulerMatrix();
-  }
-
-//TODO generar objetos dentro de la matriz segun los elementos de la tabla meitatZombies
-
-  for(let i = 0; i < tauler.elements.meitatZombies; i++){
-
-    let aux_x;
-    let aux_y;
-    let vertical = (Math.random() * 2 < 1);
-    let cabe = false;
-
-    do {
-      aux_x = Math.floor(Math.random() * taulerw);
-      aux_y = Math.floor(Math.random() * taulerh);
-
-      if(vertical){
-        if(isInside(aux_x, aux_y - 1, taulerw, taulerh))
-          cabe = tauler.matriu[aux_y - 1][aux_x] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
-      } else {
-        if(isInside(aux_x - 1, aux_y, taulerw, taulerh))
-          cabe = tauler.matriu[aux_y][aux_x - 1] == GESP_T && tauler.matriu[aux_y][aux_x] == GESP_T;
-      }
-      
-    } while(!cabe);
-
-    tauler.objects.meitatZombies.push( 
-      new MeitatZombis(
-        vertical ? [aux_x, aux_x] : [aux_x - 1, aux_x],
-        vertical ? [aux_y - 1, aux_y] : [aux_y, aux_y],
-        null,
-        [false, false],
-        MITAD_T
-      )
-    );
-    tauler.updateTaulerMatrix();
-  }
-
-//  for(let i = 0; i < tauler.elements.vidaExtra; i++){
-//
-//  }
-
-  generarTipo("zombies",tauler);
-  generarTipo("estrellas", tauler);
-  generarTipo("doblePunts", tauler);
+  tauler.genVidaExtra();
+  tauler.genMeitatZombies();
+  //TODO generar objetos dentro de la matriz segun los elementos de la tabla meitatZombies
+  tauler.generarTipo("zombies");
+  tauler.generarTipo("estrellas");
+  tauler.generarTipo("doblePunts");
 
   initEventListener(tauler);
-
   }
 
 
 // generar entidades de una casilla 
-function generarTipo(tipo, tauler){
-  for(let i = 0; i < tauler.elements[tipo]; i++){
 
-    let aux_x;
-    let aux_y;
-    let cabe = false;
-
-    do {
-      aux_x = Math.floor(Math.random() * tauler.w);
-      aux_y = Math.floor(Math.random() * tauler.h);
-      
-      cabe = tauler.matriu[aux_y][aux_x] == GESP_T;
-      
-    } while(!cabe);
-    
-    //x, y, img, muestra, id
-    let novaEntitat;
-    switch(tipo){
-      case "zombies":
-        novaEntitat = new Zombi([aux_x], [aux_y], null, [false], ZOMBIE_T);  
-      break;
-      case "estrellas":
-        novaEntitat = new Estrella([aux_x], [aux_y], null, [false], ESTRELLA_T);
-      break;
-      case "doblePunts":
-        novaEntitat = new DoblePunts([aux_x], [aux_y], null, [false], DOBLAR_T);
-      break;
-    }
-
-    //console.log(novaEntitat.getPosX() + " - " + novaEntitat.getPosY());
-    tauler.objects[tipo].push( 
-      novaEntitat
-    );
-
-    tauler.updateTaulerMatrix();
-  }
-  //console.log(tauler.objects);
-}
 
 //Inicializar los listeners de cada caja en el tauler  
 function initEventListener(tauler){
@@ -263,14 +146,143 @@ function joc(){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
           //console.log(this.mapa[y][x]);
+
           aux += "<div id='" + x +"," + y +"' class='flex-column center board " + clase + "'>" + ((this.mapa[y][x] != "g" && this.mapa[y][x] != "G") ? this.mapa[y][x].getFrame() : (this.mapa[y][x] == "g") ? "<img class='grass "+ clase +"' src='./resources/grass.png' alt='grass'>" : "<img class='grass "+ clase +"' src='./resources/grass.png' alt='grass'>")  + "</div>";
         }
         aux += "</div>";
       }
 
       aux += "</div>";
-
+      waitingFunction = "";
       return aux;      
+    },
+    printDestapat:function(posY, posX){
+      let aux = "<div class='flex-column center " + clase + "'>";
+      
+      for(let y = 0; y < this.h; y++){
+        aux += "<div class='flex-row'>";
+        for(let x = 0; x < this.w; x++){
+          if(this.mapa[y][x] != "g" && this.mapa[y][x] != "G") console.log(this.mapa[y][x].getImg());
+          aux += "<div id='" + x +"," + y +"' class='flex-column center board ";
+          aux += clase ;
+          aux += "'>" + ((this.mapa[y][x] != "g" && this.mapa[y][x] != "G") ? ((this.mapa[y][x] instanceof Estrella && y == posY && x == posX) ? this.mapa[y][x].getFrame() : (this.mapa[y][x] instanceof Zombi) ? "<img class='"+ clase +"-zombie' src='./resources/ghost/ghost-idle.gif'>" : "<img class='"+ clase +"-marker marker' src='./resources/question-marker.png' alt='hidden'>"): "<img class='grass "+ clase +"' src='./resources/grass.png' alt='grass'>");
+          aux += "</div>";
+        }
+        aux += "</div>";
+      }
+
+      aux += "</div>";
+      return aux;      
+    },
+    rellenarHierba:function(){
+      for(let y = 0; y < this.h; y++){
+        this.matriu[y] = new Array();
+        this.mapa[y] = new Array(); 
+        for(let x = 0; x < this.w; x++){
+          this.matriu[y][x] = GESP_T;
+          this.mapa[y][x] = GESP_T;
+        }
+      }
+    },
+    genVidaExtra:function(){
+      for(let i = 0; i < this.elements.vidaExtra; i++){
+        let aux_x;
+        let aux_y;
+        let vertical = (Math.random() * 2 < 1);
+        let cabe = false;
+
+        do {
+          aux_x = Math.floor(Math.random() * this.w);
+          aux_y = Math.floor(Math.random() * this.h);
+
+          if(vertical){
+            if(isInside(aux_x, aux_y - 1, this.w, this.h) && isInside(aux_x, aux_y + 1, this.w, this.h))
+              cabe = this.matriu[aux_y - 1][aux_x] == GESP_T && this.matriu[aux_y][aux_x] == GESP_T && this.matriu[aux_y + 1][aux_x] == GESP_T;
+          } else {
+            if(isInside(aux_x - 1, aux_y, this.w, this.h) && isInside(aux_x + 1, aux_y, this.w, this.h))
+              cabe = this.matriu[aux_y][aux_x - 1] == GESP_T && this.matriu[aux_y][aux_x] == GESP_T && this.matriu[aux_y][aux_x + 1] == GESP_T;
+          }
+          
+        } while(!cabe);
+
+          this.objects.vidaExtra.push(
+            new VidaExtra(
+              vertical ? [aux_x, aux_x, aux_x] : [aux_x - 1, aux_x, aux_x + 1],
+              vertical ? [aux_y - 1, aux_y, aux_y + 1] : [aux_y, aux_y, aux_y],
+              null,
+              [false, false, false],
+              VIDA_T
+            )
+          );
+          this.updateTaulerMatrix();
+      }
+    },
+    genMeitatZombies:function(){
+      for(let i = 0; i < this.elements.meitatZombies; i++){
+
+        let aux_x;
+        let aux_y;
+        let vertical = (Math.random() * 2 < 1);
+        let cabe = false;
+    
+        do {
+          aux_x = Math.floor(Math.random() * this.w);
+          aux_y = Math.floor(Math.random() * this.h);
+    
+          if(vertical){
+            if(isInside(aux_x, aux_y - 1, this.w, this.h))
+              cabe = this.matriu[aux_y - 1][aux_x] == GESP_T && this.matriu[aux_y][aux_x] == GESP_T;
+          } else {
+            if(isInside(aux_x - 1, aux_y, this.w, this.h))
+              cabe = this.matriu[aux_y][aux_x - 1] == GESP_T && this.matriu[aux_y][aux_x] == GESP_T;
+          }
+          
+        } while(!cabe);
+    
+        this.objects.meitatZombies.push( 
+          new MeitatZombis(
+            vertical ? [aux_x, aux_x] : [aux_x - 1, aux_x],
+            vertical ? [aux_y - 1, aux_y] : [aux_y, aux_y],
+            null,
+            [false, false],
+            MITAD_T
+          )
+        );
+        this.updateTaulerMatrix();
+      }
+    },
+    generarTipo: function(tipo){
+      for(let i = 0; i < this.elements[tipo]; i++){
+    
+        let aux_x;
+        let aux_y;
+        let cabe = false;
+    
+        do {
+          aux_x = Math.floor(Math.random() * this.w);
+          aux_y = Math.floor(Math.random() * this.h);
+          
+          cabe = tauler.matriu[aux_y][aux_x] == GESP_T;
+          
+        } while(!cabe);
+        let novaEntitat;
+        switch(tipo){
+          case "zombies":
+            novaEntitat = new Zombi([aux_x], [aux_y], null, [false], ZOMBIE_T);  
+          break;
+          case "estrellas":
+            novaEntitat = new Estrella([aux_x], [aux_y], null, [false], ESTRELLA_T);
+          break;
+          case "doblePunts":
+            novaEntitat = new DoblePunts([aux_x], [aux_y], null, [false], DOBLAR_T);
+          break;
+        }
+        this.objects[tipo].push( 
+          novaEntitat
+        );
+    
+        this.updateTaulerMatrix();
+      }
     },
     halfZombies: function(){
       let aux_index = [];
@@ -321,8 +333,8 @@ function joc(){
   console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
 
   document.getElementById("puntuacio").innerHTML = tauler.puntuacio;
-
   let final = false;
+  let first = true;
   let jocIniciat = setInterval(function(){
 
     if(posicioSeleccionada == "abandonar") final = true;
@@ -344,9 +356,23 @@ function joc(){
       } else
       if(tauler.mapa[posY][posX] instanceof Estrella) {
         tauler.mapa[posY][posX].interactuar(tauler);
-        document.getElementById(posX + "," + posY).classList.add("destapat");
-        tauler.mapa[posY][posX].moviment(posX,posY, clase);
-        document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("cristal",clase));
+        if(first){
+          document.getElementById("gameDisplay").innerHTML = tauler.printDestapat(posY, posX);
+          tauler.mapa[posY][posX].moviment(posX,posY, clase);
+          document.getElementById(posX + "," + posY).classList.add("destapat");
+          document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("cristal",clase));  
+          waitingFunction = setTimeout(function(){
+            document.getElementById("gameDisplay").innerHTML = tauler.printHTML();
+            initEventListener(tauler);
+            tauler.mapa[posY][posX].moviment(posX,posY, clase);
+            document.getElementById(posX + "," + posY).classList.add("destapat");
+            document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("cristal",clase));  
+          }, 2000);
+        } else {
+          tauler.mapa[posY][posX].moviment(posX,posY, clase);
+          document.getElementById(posX + "," + posY).classList.add("destapat");
+          document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("cristal",clase));
+        } 
         afeguirText("errortxt", "Acabas de descubir un cristal! Enorabuena! Ahora seras rico, no?");
       } else
       if(tauler.mapa[posY][posX] instanceof MeitatZombis) {
@@ -371,6 +397,7 @@ function joc(){
         document.getElementById(posX + "," + posY).childNodes[0].classList.add(decidirClase("doblePuntos",clase));
         afeguirText("errortxt", "La poción de Shan Gri La! Se dice que duplica el poder de tus cristales.");
       } else {
+        console.log(posX + " - " + posY);
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
         tauler.matriu[posY][posX] = GESP_D;
         tauler.puntuacio += 50;
@@ -383,6 +410,7 @@ function joc(){
       posicioSeleccionada = "";
       tauler.updateTaulerMatrix();
       console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles + "/" + tauler.elements.estrellas);
+      first = false;
     }
 
     if(final) {
@@ -400,18 +428,29 @@ function joc(){
           afeguirText("errortxt","Has perdido la partida... Es muy dificil recoger "+ tauler.elements.estrellas +" cristales eh?");
           break;
         case "Ganadas":
-          afeguirText("errortxt","Increible acontecimiento, pense que no lo lograrias... pero aqui estamos, estoy orgulloso.");
+          afeguirText("errortxt","Increible acontecimiento, pense que no lo lograrias... pero aqui estamos.");
           break;
         case "Abandonadas":
           afeguirText("errortxt","Una retirada a tiempo siempre es una victoria.");
           break;
       }
+
       setTimeout(reiniciarPartida, 5000);
       clearInterval(jocIniciat);
-      //clearInterval(waitingFunction);
     };
   }, 50);
   
+}
+
+function tipoElemento(tipo){
+  let elemento = "";
+  if(tipo instanceof Zombi) elemento = "zombie";
+  else if(tipo instanceof Estrella) elemento = "cristal";
+  else if(tipo instanceof DoblePunts) elemento = "doblePuntos";
+  else if(tipo instanceof VidaExtra) elemento = "vidaExtra";
+  else if(tipo instanceof MeitatZombis) elemento = "calavera";
+
+  return elemento;
 }
 
 /* guarda la cookie correspondiente */
@@ -437,7 +476,6 @@ function reiniciarPartida(){
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
   document.getElementById("gameDisplay").innerHTML = "<img class='demon' src='./resources/demon/demon-idle.gif' alt='waiting'>";
-  //waitingFunction = setInterval(esperantAlUsuari, 1000);
   document.getElementById("confSize").style.display = "flex";
   document.getElementById("gameControls").style.display = "none";
   document.getElementById("inputSize").value = "";
@@ -461,16 +499,10 @@ function actualitzarPuntuacio(punt){
 function actualitzarVides(current){
   document.getElementById("vida").innerHTML = "";
   let vidas = "";
-  let boost = 0;
 
-  for(let i = 0; i < ( (VIDA_MAX + boost) - current); i++){
-    vidas += "<img alt='corazon-roto' src='./resources/heart/heart-3.png'>";
+  for(let i = 0; i < (VIDA_MAX - current); i++){
+    vidas += "<img class='broken-heart' alt='corazon-roto' src='./resources/heart/heart-3.png'>";
   }
-  /*
-  for(let i = 0; i < current; i++){
-    vidas = "<img alt='corazon' src='./resources/heart/heart.png'>";
-    document.getElementById("vida").innerHTML += vidas;
-  } */
 
   if(VIDA_MAX < current) {
     vidas = "";
@@ -510,8 +542,7 @@ function main(){
 *
 */
 function cercarObj(posX,posY){
-  //console.log(posY + "-" + posX);
-  posicioSeleccionada = (posX-1) + "," + (posY-1);
+  if(waitingFunction == "") posicioSeleccionada = (posX-1) + "," + (posY-1);
 }
 
 window.onload = function(){
@@ -556,23 +587,34 @@ window.onload = function(){
     let size = document.getElementById("inputSize").value;
     let x = document.getElementById("inputX").value;
     let y = document.getElementById("inputY").value;
-    
-    if(verificarNumero(size, (5 * index))) dictionary[index](x, y);
+    let suma = 0;
+    if(index == 0){
+      suma = 1;
+      size = (x < y) ? x : y;
+    }
+    if(verificarNumero(size, ((5 * index) + suma), "inputSize")) dictionary[index](x, y);
     else afeguirText("errortxt","El numero no és correcto. Introduce otro valor");
+  });
+  window.document.getElementById("inputSize").addEventListener('input', function(event){
+    if(event.keyCode == 13){
+      event.preventDefault();
+      document.getElementById("submit").click();
+    }
+    verificarNumero(event.target.value, 5, event.target.id);
   });
   window.document.getElementById("inputX").addEventListener('input', function(event){
     if(event.keyCode == 13){
       event.preventDefault();
       document.getElementById("inputX").click();
     }
-    verificarNumero(event.target.value, 0) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
+    verificarNumero(event.target.value, 1, event.target.id) ? afeguirText("coordX", event.target.value) : afeguirText("coordX", "0");
   });
   window.document.getElementById("inputY").addEventListener('input', function(event){
     if(event.keyCode == 13){
       event.preventDefault();
       document.getElementById("inputX").click();
     }
-    verificarNumero(event.target.value, 0) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
+    verificarNumero(event.target.value, 1, event.target.id) ? afeguirText("coordY", event.target.value) : afeguirText("coordY", "0");
   });
   window.document.getElementById("creditos").addEventListener('click', loadCredits);
 }
@@ -603,9 +645,12 @@ function afeguirText(id, value){
 }
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
-function verificarNumero(value, min){
-  if(!Number.isInteger(Number.parseInt(value[value.length - 1])) || Number.parseInt(value) > 20 || Number.parseInt(value) < min) value = value.slice(0,-1);
-  return Number.isInteger(Number.parseInt(value[value.length - 1]));
+function verificarNumero(value, min, id){
+  console.log((Number.isInteger(Number.parseInt(value[value.length - 1])) && !(Number.parseInt(value) < min)) + " - " + id);
+  if(!Number.isInteger(Number.parseInt(value[value.length - 1])) || Number.parseInt(value) > 20) {
+    document.getElementById(id).value = value.slice(0,-1);
+  }
+  return (Number.isInteger(Number.parseInt(value[value.length - 1])) && !(Number.parseInt(value) < min));
 }
 
 /* carga las cookies o las crea */
@@ -632,7 +677,7 @@ function loadStorage(){
 /* carga los creditos en las estadisticas */
 function loadCredits(){
   setUpUnfold();
-  let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >CREDITOS</span></div></div>";
+  let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test m-right' >CREDITOS</span></div></div>";
   htmlCode += "<span class='test creditos-texto' >GAME DIRECTOR & LEVEL DESIGNER</span>";
   htmlCode += "<span class='test creditos-texto'>Diego Muñoz & Oriol Fornos</span>";
   document.getElementById("cookies").innerHTML = htmlCode;

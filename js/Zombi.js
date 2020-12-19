@@ -32,7 +32,6 @@ Zombi.prototype.moviment = function(x,y, clase){
 
   setTimeout(function(){
     document.getElementById(x + "," + y).innerHTML = frame[0];
-    
     document.getElementById(x + "," + y).childNodes[0].classList.add(decidirClase("zombie",clase));
   },100);
 

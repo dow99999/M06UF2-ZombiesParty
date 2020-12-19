@@ -88,7 +88,7 @@ DIV 1
     border: none;
     border-radius: 50%;
     text-align: center;
-    color: #121312;
+    color: #b1beae;
 }
 
 #gameControls{
@@ -118,7 +118,7 @@ DIV 1
 }
 
 #gameControls > div:nth-child(2) > span{
-    font-size: 25px;
+    font-size: 21px;
     color:  #b1beae;
     text-shadow: -1px -1px 0px #404040;
 }
@@ -139,7 +139,7 @@ DIV 1
     border:none;
     text-align: center;
     background-color: #343531;
-    color: #121312;
+    color: #b1beae;
     text-shadow: -1px -1px 0px #404040;
 }
 
@@ -192,8 +192,8 @@ DIV 1
 }
 
 .buttons:hover{
-    color: #0a5d00;
-    /*text-shadow: -1px -1px 0px #121312;*/
+    color: #471725;
+    text-shadow: -1px -1px 0px #121312;
 }
 
 #botones{
@@ -219,7 +219,7 @@ button:focus{
 
 input:focus{
     outline: none;
-    color: #0a5d00 !important;
+    color: #471725 !important;
 }
 
 input{
@@ -261,7 +261,7 @@ input{
 }
 
 .cookie-container:hover{
-    border:1px solid #0a5d00;
+    border:1px solid #471725;
 }
 
 .test{
@@ -273,7 +273,8 @@ input{
 }
 
 .cookie-container > .test:hover{
-    color:#0a5d00;
+    color:#471725;
+    text-shadow: -1px -1px 0px #121312;
 }
 
 .cookie-unfold{
@@ -287,6 +288,10 @@ input{
 
 .golden-heart{
     filter: invert(69%) sepia(74%) saturate(4275%) hue-rotate(15deg) brightness(89%) contrast(91%) !important;
+}
+
+.broken-heart{
+    filter:invert(11%) sepia(49%) saturate(1491%) hue-rotate(304deg) brightness(92%) contrast(96%) !important;
 }
 
 .m-top{
@@ -351,7 +356,8 @@ input{
 }
 
 #creditos:hover{
-    color:#0a5d00
+    color:#471725;
+    text-shadow: -1px -1px 0px #121312;
 }
 
 .credit-header{
@@ -362,20 +368,19 @@ input{
     display: flex;
     height: 90px;
     font-size: 23px;
-    color: #2d0714;
+    color: #471725;
 }
 
 #backToBase > img {
     width: 30px;
     height: 30px;
-    filter: invert(4%) sepia(24%) saturate(140%) hue-rotate(71deg) brightness(94%) contrast(92%);
+    filter: invert(87%) sepia(11%) saturate(272%) hue-rotate(63deg) brightness(86%) contrast(87%);
     margin-top: -5px;
     cursor: pointer;
-    transition: filter 0.4s;
 }
 
 #backToBase > img:hover{
-    filter:invert(25%) sepia(33%) saturate(2502%) hue-rotate(79deg) brightness(93%) contrast(102%);
+    filter:invert(11%) sepia(49%) saturate(1491%) hue-rotate(304deg) brightness(92%) contrast(96%);
 }
 
 /*
@@ -388,7 +393,7 @@ DIV 2
 }
 
 #gameDisplay > span{
-    color: #2d0714;
+    color: #471725;
     font-size: 40px;
     font-weight: bold;
     letter-spacing: 3px;
@@ -399,6 +404,7 @@ DIV 2
     border: 1px solid #404040;
     margin:2px;
     border-radius: 3px;
+    background-color:#34313a;
 }
 
 #header-cookie{
@@ -447,7 +453,6 @@ DIV 2
 /* sobreescritura */
 
 .destapat{
-    background-color: #34313a;
     z-index: 1;
 }
 
@@ -551,6 +556,26 @@ img {
     margin-bottom: 0px !important;
 }
 
+.min-marker{
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.normal-marker{
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.max-marker{
+    width: 50px !important;
+    height: 50px !important;
+}
+
+
+.marker{
+    margin-bottom: 0px !important;
+    filter: invert(87%) sepia(11%) saturate(272%) hue-rotate(63deg) brightness(86%) contrast(87%);
+}
 
 .ghost{
     width: 85px;
@@ -662,4 +687,8 @@ img {
 
 .creditos-texto{
     margin-top: 20px;
+}
+
+.m-right{
+    margin-right: 38px;
 }

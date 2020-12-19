@@ -26,14 +26,13 @@ var Elemento = function (x, y, img, muestra, id) {
     if(check) return ar_img;
     else return "<img class='grass " + clase +"' src='./resources/grass.png' alt='grass'>";
   }
+
+  this.getImg = function (){ return this.ar_img; } 
+
+  
 };
 
 /* "<img class='grass' src='./resources/grass.png' alt='grass'>" */
-
-Elemento.prototype.getImg = function(){
-  if(this.getDestapat()) return this.ar_img;
-  else return "";
-};
 
 /**
  * Funcion para recuperar el indice del recuadro en la posicion 
