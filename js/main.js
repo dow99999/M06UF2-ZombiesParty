@@ -387,10 +387,9 @@ function joc(){
 
     if(final) {
       let result = "";
-      if(tauler.vidas == 0) result = "Perdidas";
+      if(tauler.vida == 0) result = "Perdidas";
       if(tauler.estrelles == tauler.elements.estrellas) result = "Ganadas";
       if(posicioSeleccionada == "abandonar") result = "Abandonadas";
-      
       updateCookie(result, tauler.h);
       updateCookie("Puntuacion más alta", tauler.h, tauler.puntuacio);
       final = false;
@@ -418,13 +417,9 @@ function joc(){
 /* guarda la cookie correspondiente */
 function updateCookie(x, currentGame, max){
   if(max != null){
-    console.log("before - " + localStorage.getItem(currentGame + "=" + x) + " - max: " + max);
     if(max > localStorage.getItem(currentGame + "=" + x)) localStorage.setItem(currentGame + "=" + x, max);
-    console.log("after - " + localStorage.getItem(currentGame + "=" + x));
   } else {
-    console.log("before - " + localStorage.getItem(currentGame + "=" + x));
     localStorage.setItem(currentGame + "=" + x, Number.parseInt(localStorage.getItem(currentGame + "=" + x)) + 1);
-    console.log("after - " + localStorage.getItem(currentGame + "=" + x));
   }
 
 }
@@ -636,9 +631,10 @@ function loadStorage(){
 
 /* carga los creditos en las estadisticas */
 function loadCredits(){
+  setUpUnfold();
   let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >CREDITOS</span></div></div>";
-  htmlCode += "<span class='test' >GAME DIRECTOR & LEVEL DESIGNER</span>";
-  htmlCode += "<span class='test'>Diego Muñoz & Oriol Fornos</span>";
+  htmlCode += "<span class='test creditos-texto' >GAME DIRECTOR & LEVEL DESIGNER</span>";
+  htmlCode += "<span class='test creditos-texto'>Diego Muñoz & Oriol Fornos</span>";
   document.getElementById("cookies").innerHTML = htmlCode;
   document.getElementById("backToBase").classList.add();
   document.getElementById("backToBase").addEventListener("click", function(){
