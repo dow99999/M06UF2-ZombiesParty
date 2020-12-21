@@ -13,6 +13,7 @@ const MITAD_D = 'M';
 const VIDA_D = 'V';
 
 const VIDA_MAX = 3;
+const NUMBERS = "1234567890";
 
 var index = 1;
 var posicioSeleccionada = "";
@@ -20,6 +21,7 @@ var clase ="";
 
 var waitingFunction = "";
 var phase = 1;
+
 
 function isInside(x, y, max_x, max_y){
   return ((x < max_x && x >= 0) && (y < max_y && y >= 0));
@@ -140,8 +142,9 @@ function joc(){
       return aux;
     },
     printHTML:function(){
-      let aux = "<div class='flex-column center " + clase + "'>";
-      
+
+      let aux = "<div id='result' class='flex-column center'><h1 id='result-text' class='text'></h1></div>";
+      aux += "<div class='flex-column center'>";
       for(let y = 0; y < this.h; y++){
         aux += "<div class='flex-row'>";
         for(let x = 0; x < this.w; x++){
@@ -423,16 +426,21 @@ function joc(){
       updateCookie("Puntuacion más alta", tauler.h, tauler.puntuacio);
       final = false;
       posicioSeleccionada = "";
-      actualitzarEstrelles(0,0);
       switch(result){
         case "Perdidas":
           afeguirText("errortxt","Has perdido la partida... Es muy dificil recoger "+ tauler.elements.estrellas +" cristales eh?");
+          afeguirText("result-text", "HAS PERDIDO");
+          document.getElementById("result-text").style.color = "#d9534f !important";
           break;
         case "Ganadas":
           afeguirText("errortxt","Increible acontecimiento, pense que no lo lograrias... pero aqui estamos.");
+          afeguirText("result-text", "VICTORIA");
+          document.getElementById("result-text").style.color = "#5cb85c !important";
           break;
         case "Abandonadas":
           afeguirText("errortxt","Una retirada a tiempo siempre es una victoria.");
+          afeguirText("result-text", "ABANDONADA");
+          document.getElementById("result-text").style.color = "#b1beae !important";
           break;
       }
 
@@ -474,6 +482,7 @@ function decidirClase(tipo, clase){
 
 /* reiniciar partida */
 function reiniciarPartida(){
+  actualitzarEstrelles(0,0);
   document.getElementById("submit").innerHTML = "EMPEZAR";
   document.getElementById("abandonar").style.display = "none";
   document.getElementById("gameDisplay").innerHTML = "<img class='demon' src='./resources/demon/demon-idle.gif' alt='waiting'>";
@@ -648,10 +657,15 @@ function afeguirText(id, value){
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
 function verificarNumero(value, min, id){
-  console.log((Number.isInteger(Number.parseInt(value[value.length - 1])) && !(Number.parseInt(value) < min)) + " - " + id);
-  if(!Number.isInteger(Number.parseInt(value[value.length - 1])) || Number.parseInt(value) > 20) {
-    document.getElementById(id).value = value.slice(0,-1);
+  let res = "";
+  let val = value.split("");
+  for(let i = 0; i < val.length; i++){
+    res += (NUMBERS.includes(val[i])) ? val[i] : "";
   }
+  if(Number.parseInt(res) > 20) {
+    res = (Number.parseInt(res) > 20) ? res.slice(0,-1) : res;
+  }
+  document.getElementById(id).value = res;
   return (Number.isInteger(Number.parseInt(value[value.length - 1])) && !(Number.parseInt(value) < min));
 }
 
@@ -679,7 +693,7 @@ function loadStorage(){
 /* carga los creditos en las estadisticas */
 function loadCredits(){
   setUpUnfold();
-  let htmlCode = "<div id='backToBase' class='flex-row flex-start credit-header'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test m-right' >CREDITOS</span></div></div>";
+  let htmlCode = "<div class='flex-row flex-start credit-header'><img id='backToBase' src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test m-right' >CREDITOS</span></div></div>";
   htmlCode += "<span class='test creditos-texto' >GAME DIRECTOR & LEVEL DESIGNER</span>";
   htmlCode += "<span class='test creditos-texto'>Diego Muñoz & Oriol Fornos</span>";
   document.getElementById("cookies").innerHTML = htmlCode;
@@ -694,7 +708,7 @@ function loadCredits(){
 function loadCookie(event){
   setUpUnfold();
   let codes = "Ganadas,Perdidas,Abandonadas,Puntuacion más alta";
-  let htmlCode = "<div id='backToBase' class='flex-row'><img src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >ESTADISTICAS DE ["+ event.target.id.split(",")[0].split("[")[1] + "," + event.target.id.split(",")[0].split("[")[1] + "]</span></div></div>";
+  let htmlCode = "<div class='flex-row'><img id='backToBase' src='./resources/back-arrow.png' alt='back'><div id='header-cookie' class='flex-column center f-w'><span class='test' >ESTADISTICAS DE ["+ event.target.id.split(",")[0].split("[")[1] + "," + event.target.id.split(",")[0].split("[")[1] + "]</span></div></div>";
   for(let i = 0; i < codes.split(",").length; i++){
     //console.log(codes.split(",")[i]);
     htmlCode += "<div class='cookie-unfold m-top flex-column center'><span class='test flex-colum center'>" + codes.split(",")[i] + " = " + localStorage.getItem(event.target.id.split(",")[0].split("[")[1] + "=" + codes.split(",")[i]) + "</span></div>";

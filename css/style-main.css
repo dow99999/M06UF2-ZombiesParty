@@ -286,6 +286,11 @@ input{
     cursor: pointer;
 }
 
+#result{
+    height: 50px;
+    margin-top: -90px;
+}
+
 .golden-heart{
     filter: invert(69%) sepia(74%) saturate(4275%) hue-rotate(15deg) brightness(89%) contrast(91%) !important;
 }
@@ -371,7 +376,7 @@ input{
     color: #471725;
 }
 
-#backToBase > img {
+#backToBase{
     width: 30px;
     height: 30px;
     filter: invert(87%) sepia(11%) saturate(272%) hue-rotate(63deg) brightness(86%) contrast(87%);
@@ -379,7 +384,7 @@ input{
     cursor: pointer;
 }
 
-#backToBase > img:hover{
+#backToBase:hover{
     filter:invert(11%) sepia(49%) saturate(1491%) hue-rotate(304deg) brightness(92%) contrast(96%);
 }
 
@@ -585,6 +590,7 @@ img {
 .vida-extra{
     width: 35px ;
     height: 45px ;
+    margin-left: 6px;
 }
 
 .star-show{
