@@ -67,14 +67,9 @@ function initTauler(taulerh, taulerw, tauler){
     countRecompensas = tauler.elements.doblePunts + tauler.elements.meitatZombies*2 + tauler.elements.vidaExtra*3;
   }
 
-  //llenar matriz de hierba
-
   tauler.rellenarHierba();
-  //TODO generar objetos dentro de la matriz segun los elementos de la tabla vida extra
-  //TODO meter lo de abajo en funciones
   tauler.genVidaExtra();
   tauler.genMeitatZombies();
-  //TODO generar objetos dentro de la matriz segun los elementos de la tabla meitatZombies
   tauler.generarTipo("zombies");
   tauler.generarTipo("estrellas");
   tauler.generarTipo("doblePunts");
@@ -141,6 +136,9 @@ function joc(){
 
       return aux;
     },
+    /**
+     * Muestra la tabla en formato de divs
+     */
     printHTML:function(){
 
       let aux = "<div id='result' class='flex-column center'><h1 id='result-text' class='text'></h1></div>";
@@ -159,6 +157,9 @@ function joc(){
       waitingFunction = "";
       return aux;      
     },
+    /**
+     * Muestra los elementos que son destapados en caso de acertar en la primera tirada a una estrella
+     */
     printDestapat:function(posY, posX){
       let aux = "<div class='flex-column center " + clase + "'>";
       
@@ -177,6 +178,9 @@ function joc(){
       aux += "</div>";
       return aux;      
     },
+    /**
+     * Inicializa la matriz y el mapa donde se guardaran los objetos
+     */
     rellenarHierba:function(){
       for(let y = 0; y < this.h; y++){
         this.matriu[y] = new Array();
@@ -254,6 +258,12 @@ function joc(){
         this.updateTaulerMatrix();
       }
     },
+
+    /**
+     * Recibe el tipo de objeto a crear de 1 campo y los genera en funcion del numero de elementos a generar 
+     * de dicho tipo dentro de tauler.
+     * @param {String} tipo 
+     */
     generarTipo: function(tipo){
       for(let i = 0; i < this.elements[tipo]; i++){
     
@@ -287,6 +297,9 @@ function joc(){
         this.updateTaulerMatrix();
       }
     },
+    /**
+     * Corta la cantidad de zombies a la mitad de los zombies no destapados.
+     */
     halfZombies: function(){
       let aux_index = [];
 
@@ -308,6 +321,9 @@ function joc(){
 
       this.updateTaulerMatrix();
     },
+    /**
+     * Actualiza la matriz dentro de la tabla.
+     */
     updateTaulerMatrix: function(){
       for(let obj in this.objects){
         //console.log("o: " + obj);
@@ -341,6 +357,12 @@ function joc(){
   posicioSeleccionada = "";
   let jocIniciat = setInterval(function(){
 
+  /**
+   * posicioSeleccionada es una variable que se actualiza cuando el usuario hace click en cualquier campo o lo introduce por los inputs
+   * en ella podemos encontrar las coordenadas de la tabla o si el usuario ha abandonado la partida
+   * 
+   */
+
     if(posicioSeleccionada == "abandonar") final = true;
     
     //console.log(tauler.print() + "\n vidas: " + tauler.vida + "\n puntos: " + tauler.puntuacio + " \n estrellas: " + tauler.estrelles);
@@ -350,8 +372,11 @@ function joc(){
       let posX = posicioSeleccionada.split(",")[0];
       let posY = posicioSeleccionada.split(",")[1];
       //console.log(tauler.mapa[posY][posX].getDestapat());
-      /*TODO hay que poner mas funciones y eso de momento estoy probando a ver que tal se verian las animaciones, el reset de las vidas esta off asi que nunca mueres,
-       * para volver a activarlo solo quita el comentario de abajo */
+
+      /**
+       * Decide que hara el elemento en funcion de lo que sea.
+       */
+
       if(tauler.mapa[posY][posX] instanceof Zombi) {
         tauler.mapa[posY][posX].interactuar(tauler);
         document.getElementById(posX + "," + posY).classList.add("destapat");
@@ -403,8 +428,8 @@ function joc(){
       } else {
         console.log(posX + " - " + posY);
         document.getElementById(posX + "," + posY).classList.add("grass-destapat");
+        if(tauler.matriu[posY][posX] != GESP_D) tauler.puntuacio += 50;
         tauler.matriu[posY][posX] = GESP_D;
-        tauler.puntuacio += 50;
         afeguirText("errortxt", "Solo es hierba... como no.");
       }
       actualitzarVides(tauler.vida);
@@ -634,19 +659,20 @@ window.onload = function(){
 
 function mostrarLeyenda(x){
   let opacity = "0";
+  let display = "none";
   if(x) {
     document.getElementById("mostrarLeyenda").src = "./resources/close-icon.png";
     opacity = "1";
+    display = "flex";
   }
   else {
     document.getElementById("mostrarLeyenda").src = "./resources/question-icon.png";
     opacity = "0";
+    display = "none";
   };
 
-  //console.log(opacity)
-
-
   document.getElementById("leyenda").style.opacity = opacity;
+  document.getElementById("leyenda").style.display = display;
 }
 
 /* afegueix un texte a una ID donada per parametre */
