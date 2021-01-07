@@ -20,6 +20,7 @@ var posicioSeleccionada = "";
 var clase ="";
 
 var waitingFunction = "";
+var styleTimeout = "";
 var phase = 1;
 
 
@@ -455,17 +456,14 @@ function joc(){
         case "Perdidas":
           afeguirText("errortxt","Has perdido la partida... Es muy dificil recoger "+ tauler.elements.estrellas +" cristales eh?");
           afeguirText("result-text", "HAS PERDIDO");
-          document.getElementById("result-text").style.color = "#d9534f !important";
           break;
         case "Ganadas":
           afeguirText("errortxt","Increible acontecimiento, pense que no lo lograrias... pero aqui estamos.");
           afeguirText("result-text", "VICTORIA");
-          document.getElementById("result-text").style.color = "#5cb85c !important";
           break;
         case "Abandonadas":
           afeguirText("errortxt","Una retirada a tiempo siempre es una victoria.");
           afeguirText("result-text", "ABANDONADA");
-          document.getElementById("result-text").style.color = "#b1beae !important";
           break;
       }
 
@@ -562,7 +560,7 @@ function actualitzarVides(current){
 }
 
 function main(){
-  afeguirText("errortxt", "");
+  afeguirText("errortxt", "Juego iniciado!");
   document.getElementById("gameDisplay").classList.add("center");
   document.getElementById("abandonar").style.display = "inline";
   document.getElementById("confSize").style.display = "none";
@@ -657,10 +655,10 @@ window.onload = function(){
 
 /* mostra o amaga la llegenda en funcio de si esta amagada o no */
 
-function mostrarLeyenda(x){
+function mostrarLeyenda(estado){
   let opacity = "0";
   let display = "none";
-  if(x) {
+  if(estado) {
     document.getElementById("mostrarLeyenda").src = "./resources/close-icon.png";
     opacity = "1";
     display = "flex";
@@ -670,15 +668,28 @@ function mostrarLeyenda(x){
     opacity = "0";
     display = "none";
   };
-
-  document.getElementById("leyenda").style.opacity = opacity;
   document.getElementById("leyenda").style.display = display;
+  setTimeout(function(){
+    document.getElementById("leyenda").style.opacity = opacity;
+  }, 50)
+
 }
 
 /* afegueix un texte a una ID donada per parametre */
 function afeguirText(id, value){ 
-  if(document.getElementById(id)!=null)
-    document.getElementById(id).innerHTML =  value; 
+  if(document.getElementById(id)!=null){
+    document.getElementById(id).innerHTML =  value;
+    document.getElementById(id).classList.add("luces");
+    if(styleTimeout == 0){
+      styleTimeout = 2500;
+      setTimeout(function(){
+        document.getElementById(id).classList.remove("luces");
+        styleTimeout = 0;
+      }, styleTimeout);
+    }
+  }
+
+
 }
 
 /* verifica que el numero del input sigui un Number torna un boolean true si ho es*/
